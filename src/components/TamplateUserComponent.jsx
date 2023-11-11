@@ -5,12 +5,16 @@ import {
   CardHeader,
   CardContent,
   Box,
+  Tooltip,
+  CardActions,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
+import { styled } from "@mui/material/styles";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const TamplateUserComponent = ({
   firstName,
@@ -20,7 +24,7 @@ const TamplateUserComponent = ({
   onDeleteuser,
   onEdituser,
 }) => {
-  // console.log(canDelete);
+  const [expanded, setExpanded] = useState(false);
   const [deleteUser, setDeletedUser] = useState(false);
   const loggedin = useSelector((bigPie) => bigPie.authReducer.loggedIn);
   const handleDeleteUser = () => {
@@ -33,7 +37,19 @@ const TamplateUserComponent = ({
     //send the father id of the user
     onEdituser(id);
   };
-
+  const ExpandMore = styled((props) => {
+    const { expand, ...other } = props;
+    return <IconButton {...other} />;
+  })(({ theme, expand }) => ({
+    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  }));
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
   if (!deleteUser) {
     return (
       <Card
@@ -66,13 +82,30 @@ const TamplateUserComponent = ({
             {email}
           </CardContent>
         </CardActionArea>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
-          <IconButton onClick={handleEditUser} aria-label="do staff">
-            <EditIcon />
-          </IconButton>
-          <IconButton onClick={handleDeleteUser} aria-label="do staff">
-            <DeleteIcon />
-          </IconButton>
+        <Box
+        // sx={{ display: "flex", justifyContent: "center" }}
+        >
+          <CardActions disableSpacing>
+            <Tooltip title="Edit user">
+              <IconButton onClick={handleEditUser} aria-label="do staff">
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete user">
+              <IconButton onClick={handleDeleteUser} aria-label="do staff">
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+            <ExpandMore
+              title={!expanded ? "view more" : "view less"}
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
+          </CardActions>
         </Box>
       </Card>
     );

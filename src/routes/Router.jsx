@@ -16,6 +16,8 @@ import PageNotFound from "../pages/PageNotFound";
 import FavoriteCards from "../pages/FavoritCardPage";
 import SandBoxPage from "../pages/sandBoxPage";
 import AuthAdminGuard from "../Guard/AuthAdminGuard";
+import AuthBusinessGuard from "../Guard/AuthBusinessGuard";
+import SandBoxPageTest from "../components/usersTableComponent";
 //all the app routes
 const Router = () => {
   return (
@@ -36,6 +38,7 @@ const Router = () => {
           <AuthGuard>
             <AuthAdminGuard>
               <SandBoxPage />
+              {/* <SandBoxPageTest /> */}
             </AuthAdminGuard>
           </AuthGuard>
         }
@@ -61,9 +64,9 @@ const Router = () => {
         <Route
           path="crateCard"
           element={
-            <AuthGuard>
+            <AuthBusinessGuard>
               <CrateCard />
-            </AuthGuard>
+            </AuthBusinessGuard>
           }
         />
         <Route

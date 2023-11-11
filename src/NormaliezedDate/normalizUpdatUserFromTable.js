@@ -1,4 +1,4 @@
-const normalizUpdatUser = (newValus, oldValus, business) => {
+const normalizUpdatUserFromTable = (newValus, oldValus, business) => {
   return {
     name: {
       first: newValus.firstName,
@@ -15,8 +15,8 @@ const normalizUpdatUser = (newValus, oldValus, business) => {
     address: {
       state: oldValus.address.state,
       country: newValus.country,
-      city: newValus.city,
-      street: newValus.street,
+      city: oldValus.address.city,
+      street: oldValus.address.street,
       houseNumber: oldValus.address.houseNumber,
       zip: +oldValus.address.zip,
     },
@@ -24,4 +24,4 @@ const normalizUpdatUser = (newValus, oldValus, business) => {
   };
 };
 
-export { normalizUpdatUser };
+export { normalizUpdatUserFromTable };

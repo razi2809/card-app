@@ -8,22 +8,18 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios, { Axios } from "axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import ROUTES from "../routes/ROUTES";
 import { normalizUpdatCard } from "../NormaliezedDate/normalizUpdatCard";
-
 const Editcard = () => {
   const user_id = useSelector((bigpie) => bigpie.authReducer.userData);
-  const user_info = useSelector((bigpie) => bigpie.authReducer.userInfo
-  );
+  const user_info = useSelector((bigpie) => bigpie.authReducer.userInfo);
   const [canEdit, setcanEdit] = useState(false);
   const [inputsValue, setInputsValue] = useState({
     title: "",
@@ -33,14 +29,11 @@ const Editcard = () => {
     url: "",
   });
   const [oldValues, setOldValues] = useState("");
-  // console.log(user_id);
   let { cardId } = useParams();
-  // console.log(cardId);
   useEffect(() => {
     axios
       .get(`/cards/${cardId}`)
       .then(function (response) {
-        // console.log(response);
         setInputsValue({
           title: response.data.title,
           subtitle: response.data.subtitle,
@@ -59,7 +52,7 @@ const Editcard = () => {
         //if he one of them so a message then procced
         //if not show him the card but block the inputs and show him a message
         //that indicate that he isnt the cretor cause if he was admin he shoulnt see any warning at all
-        if (response.data.user_id == user_id||user_info.isAdmin) {
+        if (response.data.user_id == user_id || user_info.isAdmin) {
           setcanEdit(true);
           SuccessMessage(`you can now edit!`);
         } else {
@@ -68,7 +61,7 @@ const Editcard = () => {
       })
       .catch((err) => {
         //server error cant get the cards details
-        ErrorMessage(err)
+        ErrorMessage(err);
       });
   }, []);
 
@@ -81,19 +74,18 @@ const Editcard = () => {
   const navigate = useNavigate();
   const handleSubmit = (event) => {
     event.preventDefault();
-    //normalikze data and send it to the server
-   const dataToSend = normalizUpdatCard(inputsValue,oldValues)
-    console.log(dataToSend);
-     axios
+    //normalize data and send it to the server
+    const dataToSend = normalizUpdatCard(inputsValue, oldValues);
+    axios
       .put(`/cards/${cardId}`, dataToSend)
       .then(function (response) {
-        //change sucssfull
-SuccessMessage("edit success!")
-navigate(ROUTES.HOME)
+        SuccessMessage("edit success!");
+        navigate(ROUTES.HOME);
       })
       .catch(function (error) {
         //server error cant change the cards details
-        ErrorMessage(error.response.data)      });
+        ErrorMessage(error.response.data);
+      });
   };
 
   return (

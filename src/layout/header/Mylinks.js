@@ -3,20 +3,18 @@ import ROUTES from "../../routes/ROUTES";
 //depend on what calling them
 const myLinks = {
   alwaysLinks: [{ to: ROUTES.CARDS, children: "cards page" }],
-  loggedinLinks: [
-    { to: ROUTES.HOME, children: "Home page" },
+  loggedinLinks: [{ to: ROUTES.HOME, children: "Home page" }],
+  loggedoutLinks: [
+    { to: ROUTES.REGISTER, children: "Register page" },
+    { to: ROUTES.LOGIN, children: "Login page" },
+  ],
+  businessType: [
     {
       to: `${ROUTES.CARDS}/cratecard`,
       children: "crate card",
     },
   ],
-  loggedoutLinks: [
-    { to: ROUTES.REGISTER, children: "Register page" },
-    { to: ROUTES.LOGIN, children: "Login page" },
-  ],
-  adminType:[
-    {to:ROUTES.SANDBOX,children:"SANDBOX"}
-  ]
+  adminType: [{ to: ROUTES.SANDBOX, children: "SANDBOX" }],
 };
 
 export default myLinks;

@@ -21,7 +21,9 @@ import { Button, Drawer } from "@mui/material";
 import { Navigate, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import FilterComponent from "./serachcomponent/FilterComponent";
-const { alwaysLinks, loggedinLinks, loggedoutLinks, adminType } = links;
+import WarningMessage from "../../tostifyHandeker/WarningMessage";
+const { alwaysLinks, loggedinLinks, loggedoutLinks, adminType, businessType } =
+  links;
 function ResponsiveAppBar({ darkEnable }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,13 +36,13 @@ function ResponsiveAppBar({ darkEnable }) {
     localStorage.setItem("theme", !darkEnable);
     localStorage.setItem(decodedToken, !darkEnable);
   };
-
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const handleLogOut = () => {
     setAnchorElUser(null);
     dispatch(authActions.logout());
     navigate("/cards");
+    WarningMessage("you are now logged out");
   };
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -52,38 +54,29 @@ function ResponsiveAppBar({ darkEnable }) {
       setAnchorElUser(event.currentTarget);
     }
   };
-
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
   };
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  const handeleUserNameClick = () => {
+    navigate("/home");
+  };
   return (
     <AppBar position="static">
       <Container maxWidth="xl">
-        <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography
-            variant="h6"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+        <Toolbar disableGutters sx={{ justifyContent: "space-evenly" }}>
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              // flexGrow: 1,
+              display: {
+                xs: "flex",
+                md: "none",
+                justifyContent: "space-between",
+              },
             }}
           >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -100,49 +93,82 @@ function ResponsiveAppBar({ darkEnable }) {
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
             >
-              {loggedin &&
-                loggedinLinks.map((myItem) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  flexGrow: 0.4,
+                  flexDirection: "column",
+                  justifyContent: "space-around",
+                  alignContent: "space-around",
+                }}
+              >
+                {loggedin &&
+                  loggedinLinks.map((myItem) => (
+                    <NavLinkComponent to={myItem.to} key={myItem.to}>
+                      {myItem.children}
+                    </NavLinkComponent>
+                  ))}
+                {!loggedin &&
+                  loggedoutLinks.map((myItem) => (
+                    <NavLinkComponent to={myItem.to} key={myItem.to}>
+                      {myItem.children}
+                    </NavLinkComponent>
+                  ))}
+                {alwaysLinks.map((myItem) => (
                   <NavLinkComponent to={myItem.to} key={myItem.to}>
                     {myItem.children}
                   </NavLinkComponent>
                 ))}
-              {!loggedin &&
-                loggedoutLinks.map((myItem) => (
-                  <NavLinkComponent to={myItem.to} key={myItem.to}>
-                    {myItem.children}
-                  </NavLinkComponent>
-                ))}
-              {alwaysLinks.map((myItem) => (
-                <NavLinkComponent to={myItem.to} key={myItem.to}>
-                  {myItem.children}
-                </NavLinkComponent>
-              ))}
+                {userInfo &&
+                  userInfo.isBusiness &&
+                  businessType.map((myItem) => (
+                    <NavLinkComponent to={myItem.to} key={myItem.to}>
+                      {myItem.children}
+                    </NavLinkComponent>
+                  ))}
+                {userInfo &&
+                  userInfo.isAdmin &&
+                  adminType.map((myItem) => (
+                    <NavLinkComponent to={myItem.to} key={myItem.to}>
+                      {myItem.children}
+                    </NavLinkComponent>
+                  ))}
+              </Box>
             </Drawer>
           </Box>
-          {!darkEnable && <NightlightIcon onClick={handleChangetheme} />}
-          {darkEnable && <LightModeIcon onClick={handleChangetheme} />}
+          <Box sx={{ display: { xs: "flex", md: "flex" } }}>
+            {userInfo && (
+              <Typography
+                variant="h6"
+                noWrap
+                component="a"
+                onClick={handeleUserNameClick}
+                sx={{
+                  mr: 2,
+                  fontFamily: "monospace",
+                  fontWeight: 700,
+                  letterSpacing: ".3rem",
+                  color: "inherit",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                {userInfo.name.first}
+              </Typography>
+            )}
+            {!darkEnable && <NightlightIcon onClick={handleChangetheme} />}
+            {darkEnable && <LightModeIcon onClick={handleChangetheme} />}
+          </Box>
           <FilterComponent />
-          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
-          <Typography
-            variant="h5"
-            noWrap
-            component="a"
-            href="#app-bar-with-responsive-menu"
+          <Box
             sx={{
-              mr: 2,
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontFamily: "monospace",
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              color: "inherit",
-              textDecoration: "none",
+              // flexGrow: 1,
+              display: {
+                xs: "none",
+                md: "flex",
+              },
             }}
           >
-            LOGO
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}></Box>
-          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {loggedin &&
               loggedinLinks.map((myItem) => (
                 <NavLinkComponent to={myItem.to} key={myItem.to}>
@@ -160,6 +186,13 @@ function ResponsiveAppBar({ darkEnable }) {
                 {myItem.children}
               </NavLinkComponent>
             ))}
+            {userInfo &&
+              userInfo.isBusiness &&
+              businessType.map((myItem) => (
+                <NavLinkComponent to={myItem.to} key={myItem.to}>
+                  {myItem.children}
+                </NavLinkComponent>
+              ))}
             {userInfo &&
               userInfo.isAdmin &&
               adminType.map((myItem) => (

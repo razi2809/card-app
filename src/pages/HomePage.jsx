@@ -6,7 +6,6 @@ import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import TemplateCardComponent from "../components/TemplateCardComponent";
 import { Typography } from "@mui/material";
@@ -32,20 +31,13 @@ const HomePage = () => {
   const userId = user.userData;
   const [cards, SetCards] = useState("");
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
-  // console.log(userData);
-
   const memoCard = React.memo(TemplateCardComponent);
-
-  // const [userData, SetUserData] = useState(null);
-
-  // console.log(userId, loggedin);
   useEffect(() => {
     if (userData) {
       const myCard = axios
         .get("/cards/my-cards")
         .then(function (response) {
           if (response.data && response.data.length > 0) {
-            console.log("done");
             SetCards(response.data);
             setInitialDataFromServer(response.data);
           }
@@ -87,12 +79,9 @@ const HomePage = () => {
       });
   }, []);
   const handleLikeCard = useCallback((idToLike, like) => {
-    // console.log("Card to like:", idToLike);
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
-        // console.log(response.data);
-        // setDataFromServer(response.data);
         if (!like) {
           SuccessMessage("liked");
         } else {
@@ -103,8 +92,6 @@ const HomePage = () => {
         console.log(error);
         ErrorMessage(error.response.data);
       });
-
-    // navigate(`/cards/${idToEdit}`); // Navigate to the specified path after the delay
   }, []);
   if (userData) {
     return (

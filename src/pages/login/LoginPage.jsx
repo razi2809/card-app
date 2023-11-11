@@ -22,6 +22,8 @@ import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "../../layout/header/NavLinkComponent";
 
 const LoginPage = () => {
+  const [secondtrychance, setSeconrychance] = useState(false);
+
   const [emailValue, setEmailValue] = useState("");
   const [passwordValue, setPasswordValue] = useState("");
   const [errorsState, setErrorsState] = useState("");
@@ -44,7 +46,7 @@ const LoginPage = () => {
         email: emailValue,
         password: passwordValue,
       });
-      
+
       storeToken(data, rememberMe);
       await login();
       SuccessMessage("log in successfully!");
@@ -60,7 +62,15 @@ const LoginPage = () => {
   };
   const handleEmailInputChange = (e) => {
     setEmailValue(e.target.value);
-
+    if (secondtrychance) {
+      //when its his second try and we gave him the warning then
+      //alert him if its still an error or if its not
+      const joiResponse = validateLogin({
+        email: e.target.value,
+        password: passwordValue,
+      });
+      setErrorsState(joiResponse);
+    }
   };
   const handlePasswordInputChange = (e) => {
     setPasswordValue(e.target.value);
@@ -68,6 +78,7 @@ const LoginPage = () => {
       email: emailValue,
       password: e.target.value,
     });
+    setSeconrychance(true);
     setErrorsState(joiResponse);
   };
   return (
@@ -162,12 +173,11 @@ const LoginPage = () => {
                   Forgot password?
                 </Link>
               </Grid> */}
-                <Button variant="contained" fullWidth>
-                  <NavLinkComponent to={ROUTES.REGISTER}>
-                    Don't have an account? Sign Up
-                  </NavLinkComponent>
-                </Button>
-              
+              <Button variant="contained" fullWidth>
+                <NavLinkComponent to={ROUTES.REGISTER}>
+                  Don't have an account? Sign Up
+                </NavLinkComponent>
+              </Button>
             </Grid>
           </Box>
         </Box>
