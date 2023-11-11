@@ -38,7 +38,6 @@ const Router = () => {
           <AuthGuard>
             <AuthAdminGuard>
               <SandBoxPage />
-              {/* <SandBoxPageTest /> */}
             </AuthAdminGuard>
           </AuthGuard>
         }
@@ -64,9 +63,11 @@ const Router = () => {
         <Route
           path="crateCard"
           element={
-            <AuthBusinessGuard>
-              <CrateCard />
-            </AuthBusinessGuard>
+            <AuthGuard>
+              <AuthBusinessGuard>
+                <CrateCard />
+              </AuthBusinessGuard>
+            </AuthGuard>
           }
         />
         <Route
