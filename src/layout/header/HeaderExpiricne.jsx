@@ -9,21 +9,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Tooltip from "@mui/material/Tooltip";
-import AdbIcon from "@mui/icons-material/Adb";
 import { useDispatch, useSelector } from "react-redux";
-import links from "./Mylinks";
 import { DarkActions } from "../../REDUX/DarkTheme";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import NavLinkComponent from "./NavLinkComponent";
 import { authActions } from "../../REDUX/authSlice";
 import { Button, Drawer } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import FilterComponent from "./serachcomponent/FilterComponent";
 import WarningMessage from "../../tostifyHandeker/WarningMessage";
-const { alwaysLinks, loggedinLinks, loggedoutLinks, adminType, businessType } =
-  links;
+import LinksComponent from "../../components/LinksComponent";
+
 function ResponsiveAppBar({ darkEnable }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -87,7 +85,6 @@ function ResponsiveAppBar({ darkEnable }) {
             >
               <MenuIcon />
             </IconButton>
-
             <Drawer
               anchor={"left"}
               open={Boolean(anchorElNav)}
@@ -102,37 +99,7 @@ function ResponsiveAppBar({ darkEnable }) {
                   alignContent: "space-around",
                 }}
               >
-                {loggedin &&
-                  loggedinLinks.map((myItem) => (
-                    <NavLinkComponent to={myItem.to} key={myItem.to}>
-                      {myItem.children}
-                    </NavLinkComponent>
-                  ))}
-                {!loggedin &&
-                  loggedoutLinks.map((myItem) => (
-                    <NavLinkComponent to={myItem.to} key={myItem.to}>
-                      {myItem.children}
-                    </NavLinkComponent>
-                  ))}
-                {alwaysLinks.map((myItem) => (
-                  <NavLinkComponent to={myItem.to} key={myItem.to}>
-                    {myItem.children}
-                  </NavLinkComponent>
-                ))}
-                {userInfo &&
-                  userInfo.isBusiness &&
-                  businessType.map((myItem) => (
-                    <NavLinkComponent to={myItem.to} key={myItem.to}>
-                      {myItem.children}
-                    </NavLinkComponent>
-                  ))}
-                {userInfo &&
-                  userInfo.isAdmin &&
-                  adminType.map((myItem) => (
-                    <NavLinkComponent to={myItem.to} key={myItem.to}>
-                      {myItem.children}
-                    </NavLinkComponent>
-                  ))}
+                <LinksComponent loggedin={loggedin} userInfo={userInfo} />
               </Box>
             </Drawer>
           </Box>
@@ -169,37 +136,7 @@ function ResponsiveAppBar({ darkEnable }) {
               },
             }}
           >
-            {loggedin &&
-              loggedinLinks.map((myItem) => (
-                <NavLinkComponent to={myItem.to} key={myItem.to}>
-                  {myItem.children}
-                </NavLinkComponent>
-              ))}
-            {!loggedin &&
-              loggedoutLinks.map((myItem) => (
-                <NavLinkComponent to={myItem.to} key={myItem.to}>
-                  {myItem.children}
-                </NavLinkComponent>
-              ))}
-            {alwaysLinks.map((myItem) => (
-              <NavLinkComponent to={myItem.to} key={myItem.to}>
-                {myItem.children}
-              </NavLinkComponent>
-            ))}
-            {userInfo &&
-              userInfo.isBusiness &&
-              businessType.map((myItem) => (
-                <NavLinkComponent to={myItem.to} key={myItem.to}>
-                  {myItem.children}
-                </NavLinkComponent>
-              ))}
-            {userInfo &&
-              userInfo.isAdmin &&
-              adminType.map((myItem) => (
-                <NavLinkComponent to={myItem.to} key={myItem.to}>
-                  {myItem.children}
-                </NavLinkComponent>
-              ))}
+            <LinksComponent loggedin={loggedin} userInfo={userInfo} />
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">

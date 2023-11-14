@@ -6,13 +6,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback } from "react";
-import { Switch, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { useSelector } from "react-redux";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import Pagination from "@mui/material/Pagination";
+import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
 const memoCard = React.memo(TemplateCardComponent);
 export default function Cards() {
   const search = useSearchquery();
@@ -25,6 +26,7 @@ export default function Cards() {
   const WhatPage = parseInt(searchParams.get("page")) || 1;
   const [page, setPage] = useState(WhatPage);
   const TOTAL_PER_PAGE = 6;
+  const skeleton = [0, 1, 2, 3, 4, 5];
   const [numPages, setnumPages] = useState(0);
   const [displayData, setDisplayData] = useState([]);
   useEffect(() => {
@@ -59,7 +61,7 @@ export default function Cards() {
         );
       })
       .catch(function (error) {
-        console.log(error);
+        ErrorMessage(error.response.data);
       });
   }, []);
   useEffect(() => {
@@ -84,17 +86,15 @@ export default function Cards() {
         dataFromServer.slice((page - 1) * TOTAL_PER_PAGE, page * TOTAL_PER_PAGE)
       );
     }
-  }, [search.filter]);
+  }, [search.filter, initialDataFromServer]);
   const handleEditCard = useCallback((idToEdit) => {
     // Navigate to the specified path to edit the card
     navigate(`/cards/${idToEdit}/edit`);
   }, []);
   const handleLikeCard = useCallback((idToLike, like) => {
-    // console.log("Card to like:", idToLike);
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
-        // setDataFromServer(response.data);
         if (!like) {
           SuccessMessage("liked");
         } else {
@@ -127,7 +127,7 @@ export default function Cards() {
         <Grid container spacing={3}>
           {displayData.map((card) => (
             <Grid xs={12} sm={6} md={3} key={card._id}>
-              <TemplateCardComponent
+              <memoCard
                 id={card._id}
                 title={card.title}
                 subTitle={card.subtitle}
@@ -166,7 +166,26 @@ export default function Cards() {
   } else {
     return (
       <>
-        <h1>loadwing data from the server...</h1>
+        <Box sx={{ flexGrow: 1, mt: "1em" }}>
+          <Grid container spacing={3}>
+            {skeleton.map((card) => (
+              <Grid xs={12} sm={6} md={3} key={card}>
+                <SkeletonTamplateForCard />
+              </Grid>
+            ))}
+          </Grid>
+
+          <Pagination
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignContent: "center",
+              mt: 4,
+            }}
+            count={5}
+            page={1}
+          />
+        </Box>{" "}
       </>
     );
   }

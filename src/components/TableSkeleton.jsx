@@ -1,13 +1,11 @@
-import React, { memo, useState } from "react";
-import { Avatar, Box, Fab } from "@mui/material";
+import axios from "axios";
+import React, { memo, useEffect, useState } from "react";
+import { Avatar, Box, Fab, Grid, Pagination, Typography } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import DeleteIcon from "@mui/icons-material/Delete";
+import SaveIcon from "@mui/icons-material/Save";
 
-import SaveChangeButton from "./SaveChangeButton";
-const UsersTableComponent = ({ onDeleteuser, dataOfUsers, users, loading }) => {
-  const [myData, setMyData] = useState(dataOfUsers);
-  const [rowId, SetRowId] = useState("");
-
+const TableSkeleton = () => {
   const columns = [
     {
       field: "avatar",
@@ -51,7 +49,6 @@ const UsersTableComponent = ({ onDeleteuser, dataOfUsers, users, loading }) => {
       headerName: "country",
       editable: true,
 
-      // renderCell: (params) => moment(params.row.createdAt).format(`DD-MM-yyyy`),
       width: 150,
     },
     {
@@ -60,12 +57,20 @@ const UsersTableComponent = ({ onDeleteuser, dataOfUsers, users, loading }) => {
       renderCell: (params) => (
         <Box sx={{ display: "flex" }}>
           {" "}
-          <SaveChangeButton params={params} rowId={rowId} users={users} />
+          <Box sx={{ position: "relative" }}>
+            <Fab
+              aria-label="save"
+              color="primary"
+              sx={{ height: 40, width: 40 }}
+              disabled={true}
+            >
+              <SaveIcon />
+            </Fab>
+          </Box>{" "}
           <Fab
             sx={{ ml: 1, height: 40, width: 40 }}
             color="secondary"
             aria-label="delete"
-            onClick={() => handleDeleteuser(params.row.id)}
           >
             <DeleteIcon fontSize="large" />
           </Fab>
@@ -74,32 +79,33 @@ const UsersTableComponent = ({ onDeleteuser, dataOfUsers, users, loading }) => {
       width: 110,
     },
   ];
-
-  const handleDeleteuser = (id) => {
-    const updatedRows = myData.filter((row) => row.id !== id);
-    setMyData(updatedRows);
-    onDeleteuser(id);
-  };
+  const placeholderData = Array(10)
+    .fill()
+    .map((_, i) => ({
+      id: i,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      createdAt: "",
+      avatar: "",
+      country: "",
+    }));
 
   return (
-    <div style={{ width: "100%" }} sx={{}}>
+    <div style={{ width: "100%" }}>
       <DataGrid
-        rows={myData}
+        rows={placeholderData}
         columns={columns}
         getRowId={(row) => row.id}
-        // pageSizeOptions={[10, 20, 30, 100]}
         initialState={{
           pagination: { paginationModel: { pageSize: 10 } },
         }}
         pageSizeOptions={[5, 10, 25]}
-        onCellEditStop={(params) => {
-          SetRowId(params.id);
-        }}
-        loading={loading}
-        // onCellEditStop={(params) => SetnewValues(params)}
+        loading={true}
       />
     </div>
   );
 };
 
-export default memo(UsersTableComponent);
+export default memo(TableSkeleton);

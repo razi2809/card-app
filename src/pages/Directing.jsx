@@ -1,6 +1,4 @@
-import React, { useEffect } from "react";
-import { Box, Typography } from "@mui/material";
-import { purple } from "@mui/material/colors";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../routes/ROUTES";
 import { useSelector } from "react-redux";

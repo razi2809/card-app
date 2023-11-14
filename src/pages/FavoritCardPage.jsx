@@ -1,46 +1,49 @@
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import TemplateCardComponent from "../components/TemplateCardComponent";
-import { Typography } from "@mui/material";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Pagination, Typography } from "@mui/material";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
-import Directing from "./Directing";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import ROUTES from "../routes/ROUTES";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
 const FavoriteCards = () => {
   const navigate = useNavigate();
-
-  const loggedin = useSelector((bigPie) => bigPie.authReducer.loggedIn);
-  const userData = useSelector((bigPie) => bigPie.authReducer.userInfo);
+  const [searchParams] = useSearchParams();
   const userId = useSelector((bigPie) => bigPie.authReducer.userData);
   const [cards, SetCards] = useState("");
   const [done, setDone] = useState(false);
   const search = useSearchquery();
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
-  const [empty, setEmpty] = useState(true);
-
-  const memoCard = React.memo(TemplateCardComponent);
-
-  // const [userData, SetUserData] = useState(null);
-  // console.log(userId, loggedin);
+  const skeleton = [0, 1, 2, 3, 4, 5];
+  const WhatPage = parseInt(searchParams.get("page")) || 1;
+  const [page, setPage] = useState(WhatPage);
+  const [numPages, setnumPages] = useState(1);
+  const TOTAL_PER_PAGE = 6;
+  const handlePageChange = (_, newPage) => {
+    //when he clicks to move a page then navigate to a new one
+    //the page state will upate automaticly
+    setPage(newPage);
+    navigate(`/cards/favorite?page=${newPage}`);
+  };
+  useEffect(() => {
+    //get the page number from the param
+    //setting the card data accordingly
+    if (initialDataFromServer.length > 0) {
+      SetCards(
+        initialDataFromServer.slice(
+          (page - 1) * TOTAL_PER_PAGE,
+          page * TOTAL_PER_PAGE
+        )
+      );
+    }
+  }, [page]);
   useEffect(() => {
     axios
       .get("/cards")
@@ -48,19 +51,26 @@ const FavoriteCards = () => {
         const LikedCards = response.data.filter((card) =>
           card.likes.includes(userId)
         );
+        SetCards(
+          response.data.slice(
+            (page - 1) * TOTAL_PER_PAGE,
+            page * TOTAL_PER_PAGE
+          )
+        );
+        if (Math.ceil(LikedCards.length / TOTAL_PER_PAGE) > 1) {
+          setnumPages(Math.ceil(LikedCards.length / TOTAL_PER_PAGE));
+        }
         if (LikedCards.length === 0) {
           //check if he has favorite at all
           //if he dosent then render somthing else...
           WarningMessage("you  have no favorite cards...");
-          setEmpty(false);
           navigate(ROUTES.HOME);
         }
-        SetCards(LikedCards);
         setInitialDataFromServer(LikedCards);
         setDone(true);
       })
       .catch(function (error) {
-        console.log(error);
+        ErrorMessage(error.response);
       });
   }, []);
   useEffect(() => {
@@ -76,24 +86,34 @@ const FavoriteCards = () => {
       // Handle if card is empty after filter here
       WarningMessage("No cards match the filter");
     }
-    SetCards(filteredCards);
+    if (filter) {
+      //if he dose search something then show the result
+      SetCards(filteredCards);
+    } else {
+      //if not or if he deleted thje search slice the user depends on the page
+      SetCards(
+        initialDataFromServer.slice(
+          (page - 1) * TOTAL_PER_PAGE,
+          page * TOTAL_PER_PAGE
+        )
+      );
+    }
   }, [search.filter, initialDataFromServer]);
   const handleEditCard = useCallback((idToEdit) => {
-    // Navigate to the specified path after the delay for edit the card
+    // Navigate to the specified path to edit the card
     navigate(`/cards/${idToEdit}/edit`);
   }, []);
   const handeDeleteCard = useCallback((idToDelte) => {
-    console.log("the card to del", idToDelte);
     axios
       .delete(`/cards/${idToDelte}`)
-      .then(function (response) {})
+      .then(function (response) {
+        SuccessMessage("delete success");
+      })
       .catch(function (error) {
-        //catnt delete card
         ErrorMessage(error.response.data);
       });
   }, []);
   const handleLikeCard = (idToLike, like) => {
-    // console.log("Card to like:", idToLike);
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
@@ -101,7 +121,7 @@ const FavoriteCards = () => {
         SuccessMessage("unliked");
         cards.map((card, index) => {
           if (card._id == idToLike) {
-            //update the cards to delte it
+            //update the cards to delete it
             const copied = [...cards];
             copied.splice(index, 1);
             SetCards(copied);
@@ -117,17 +137,13 @@ const FavoriteCards = () => {
         //error like or unlike the card faild(server error)
         ErrorMessage(error.response.data);
       });
-
-    // navigate(`/cards/${idToEdit}`); // Navigate to the specified path after the delay
   };
-
   if (done) {
     if (initialDataFromServer.length > 0 && cards.length > 0) {
-      //there is liked card
       return (
         <>
           {cards && (
-            <Box sx={{ flexGrow: 1 }}>
+            <Box sx={{ flexGrow: 1, mt: "1em" }}>
               <Grid container spacing={3}>
                 {cards.map((card) => (
                   <Grid xs={12} sm={6} md={3} key={card._id}>
@@ -147,6 +163,19 @@ const FavoriteCards = () => {
                   </Grid>
                 ))}
               </Grid>
+              {numPages && (
+                <Pagination
+                  sx={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignContent: "center",
+                    mt: 4,
+                  }}
+                  count={numPages}
+                  page={page}
+                  onChange={handlePageChange}
+                />
+              )}
             </Box>
           )}
         </>
@@ -154,15 +183,20 @@ const FavoriteCards = () => {
     } else if (initialDataFromServer.length > 0 && cards.length == 0) {
       //no one match after the search
       return <Typography variant="h1">No card match</Typography>;
-    } /* else if (cards.length == 0) {
-      //there no is liked card
-      WarningMessage("you have no liked card");
-      return <Directing />;
-    } */
+    }
   } else {
     //the check for like isn't done yet
-    return <Typography variant="h1">Waiting for server...</Typography>;
+    return (
+      <Box sx={{ flexGrow: 1, mt: "1em" }}>
+        <Grid container spacing={3}>
+          {skeleton.map((card) => (
+            <Grid xs={12} sm={6} md={3} key={card}>
+              <SkeletonTamplateForCard />
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
+    );
   }
 };
-
 export default FavoriteCards;

@@ -18,7 +18,6 @@ import SandBoxPage from "../pages/sandBoxPage";
 import AuthAdminGuard from "../Guard/AuthAdminGuard";
 import AuthBusinessGuard from "../Guard/AuthBusinessGuard";
 import SandBoxPageTest from "../components/usersTableComponent";
-//all the app routes
 const Router = () => {
   return (
     <Routes>

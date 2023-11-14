@@ -14,7 +14,7 @@ const AuthBusinessGuard = ({ children }) => {
     return children;
   } else {
     WarningMessage(
-      "you need to be abusiness account in order to access this page"
+      "you need to be a business account in order to access this page"
     );
     return <Navigate to={ROUTES.HOME} replace={true} />;
   }

@@ -3,12 +3,14 @@ import Search from "./Search";
 import SearchIconWrapper from "./SearchIconWrapper";
 import StyledInputBase from "./StyledInputBase";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
 const FilterComponent = () => {
   const [txt, setTxt] = useState("");
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [disable, setDisable] = useState(true);
+  const [searchParams] = useSearchParams();
+  const search = searchParams.get("filter");
   const handleInputChange = (e) => {
     //chane the search input and navigaet to  parmas that can be monitored
     //gives the param filter:some value
@@ -26,6 +28,9 @@ const FilterComponent = () => {
       pathname == "/home" ||
       pathname == "/sandbox"
     ) {
+      if (search) {
+        setTxt(search);
+      }
       setDisable(false);
     } else {
       setDisable(true);

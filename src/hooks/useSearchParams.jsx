@@ -3,8 +3,8 @@ import { useLocation } from "react-router-dom";
 
 const useSearchquery = () => {
   //get query params from url
-  //once he gets the params 
-  //convert to an object thet give 
+  //once he gets the params
+  //convert to an object thet give
   //key:value
   const { search } = useLocation();
   return useMemo(() => {

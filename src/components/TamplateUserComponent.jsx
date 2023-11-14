@@ -7,6 +7,8 @@ import {
   Box,
   Tooltip,
   CardActions,
+  Collapse,
+  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -21,6 +23,9 @@ const TamplateUserComponent = ({
   lastName,
   email,
   id,
+  city,
+  country,
+  phone,
   onDeleteuser,
   onEdituser,
 }) => {
@@ -52,20 +57,13 @@ const TamplateUserComponent = ({
   };
   if (!deleteUser) {
     return (
-      <Card
-        sx={
-          {
-            // boxShadow: "2px 2px 5px",
-            // border: "3px solid grey",
-            // borderRadius: "8px",
-          }
-        }
-      >
+      <Card>
         <CardActionArea>
           <CardHeader
             title={firstName}
             subheader={lastName}
             sx={{
+              height: 100,
               backgroundColor: "grey",
               color: "black",
               textAlign: "center",
@@ -82,6 +80,18 @@ const TamplateUserComponent = ({
             {email}
           </CardContent>
         </CardActionArea>
+        <Collapse in={expanded} timeout="auto" unmountOnExit>
+          <CardContent>
+            <Typography sx={{ mt: 1, mb: 2, textAlign: "center" }}>
+              user's phone: {phone}
+            </Typography>
+            <Typography sx={{ textAlign: "center" }}>
+              users's address: <br></br>
+              country: {country} <br></br>
+              city: {city}
+            </Typography>
+          </CardContent>
+        </Collapse>
         <Box
         // sx={{ display: "flex", justifyContent: "center" }}
         >
