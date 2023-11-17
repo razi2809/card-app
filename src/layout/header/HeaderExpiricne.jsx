@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { DarkActions } from "../../REDUX/DarkTheme";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import NavLinkComponent from "./NavLinkComponent";
+import NavLinkComponent from "../../components/NavLinkComponent";
 import { authActions } from "../../REDUX/authSlice";
 import { Button, Drawer } from "@mui/material";
 import { useNavigate } from "react-router-dom";
@@ -62,7 +62,7 @@ function ResponsiveAppBar({ darkEnable }) {
     navigate("/home");
   };
   return (
-    <AppBar position="static">
+    <AppBar position="sticky">
       <Container maxWidth="xl">
         <Toolbar disableGutters sx={{ justifyContent: "space-evenly" }}>
           <Box
@@ -141,7 +141,14 @@ function ResponsiveAppBar({ darkEnable }) {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                <Avatar
+                  alt="Remy Sharp"
+                  src={
+                    userInfo
+                      ? userInfo.image.url
+                      : "/static/images/avatar/2.jpg"
+                  }
+                />
               </IconButton>
             </Tooltip>
             <Menu

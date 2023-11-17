@@ -3,9 +3,9 @@ import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
-import React, { useCallback, useEffect } from "react";
+import React, { Fragment, useCallback, useEffect, useRef } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import TemplateCardComponent from "../components/TemplateCardComponent";
 import { Typography } from "@mui/material";
@@ -15,15 +15,14 @@ import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+import { likeAction } from "../REDUX/likeSlice";
+import { useInView } from "react-intersection-observer";
+import AboutMe from "../components/AboutMe";
+
+
 const HomePage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const user = useSelector((bigPie) => bigPie.authReducer);
   const search = useSearchquery();
   const loggedin = user.loggedin;
@@ -35,7 +34,6 @@ const HomePage = () => {
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
   const memoCard = React.memo(TemplateCardComponent);
   const skeleton = [0, 1, 2, 3];
-
   useEffect(() => {
     if (userData) {
       axios
@@ -97,6 +95,7 @@ const HomePage = () => {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
+        dispatch(likeAction.changeState(true));
         if (!like) {
           //if the like wasnt on so like it and show the success message
           SuccessMessage("liked");
@@ -113,71 +112,91 @@ const HomePage = () => {
   if (userData) {
     //
     return (
-      <Box>
+      <Box sx={{ width: 1 }}>
         <Typography variant="h1" textAlign="center">
           welcome {userData.name.first}
         </Typography>
-        {initialDataFromServer.length > 0 && cards.length > 0 && (
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              {cards.map((card) => (
-                <Grid xs={12} sm={6} md={3} key={card._id}>
-                  <TemplateCardComponent
-                    id={card._id}
-                    title={card.title}
-                    subTitle={card.subtitle}
-                    phone={card.phone}
-                    description={card.description}
-                    url={card.image.url}
-                    onEditCard={handleEditCard}
-                    onLikedCard={handleLikeCard}
-                    onDeleteCard={handeDeleteCard}
-                    likeFromData={card.likes.includes(userId) ? true : false}
-                    canDelete={
-                      card.user_id == userId || userData.isAdmin ? true : false
-                    }
-                  />
-                </Grid>
-              ))}
+        <Grid container spacing={3}>
+          <Grid container spacing={3} sm={12} xs={12} md={6}>
+            <Grid xs={12} md={12}>
+              {" "}
+              <Typography variant="h2" textAlign="center">
+                my cards
+              </Typography>
             </Grid>
-          </Box>
-        )}
-        {!initialDataFromServer.length && allCards && (
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              {allCards.map((card) => (
-                <Grid xs={12} sm={6} md={3} key={card._id}>
-                  <TemplateCardComponent
-                    id={card._id}
-                    title={card.title}
-                    subTitle={card.subtitle}
-                    phone={card.phone}
-                    description={card.description}
-                    url={card.image.url}
-                    onEditCard={handleEditCard}
-                    onLikedCard={handleLikeCard}
-                    onDeleteCard={handeDeleteCard}
-                    likeFromData={card.likes.includes(userId) ? true : false}
-                    canDelete={
-                      card.user_id == userId || userData.isAdmin ? true : false
-                    }
-                  />
-                </Grid>
-              ))}
+          </Grid>
+          <Grid container spacing={3} sm={12} xs={12} md={6}>
+            <Grid xs={12} md={12}>
+              <Typography variant="h2" textAlign="center">
+                all cards{" "}
+              </Typography>
             </Grid>
-          </Box>
-        )}
-        {!done && (
-          <Box sx={{ flexGrow: 1 }}>
-            <Grid container spacing={3}>
-              {skeleton.map((card) => (
-                <Grid xs={12} sm={6} md={3} key={card}>
-                  <SkeletonTamplateForCard />
-                </Grid>
+            {allCards &&
+              allCards.map((card) => (
+                <Fragment key={card._id}>
+                  <Grid
+                    container
+                    xs={2}
+                    sm={0}
+                    md={1}
+                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
+                  ></Grid>
+                  <Grid xs={8} sm={6} md={4}>
+                    <TemplateCardComponent
+                      cardIsInHome={true}
+                      id={card._id}
+                      title={card.title}
+                      subTitle={card.subtitle}
+                      phone={card.phone}
+                      description={card.description}
+                      url={card.image.url}
+                      onEditCard={handleEditCard}
+                      onLikedCard={handleLikeCard}
+                      onDeleteCard={handeDeleteCard}
+                      likeFromData={card.likes.includes(userId) ? true : false}
+                      canDelete={
+                        card.user_id == userId || userData.isAdmin
+                          ? true
+                          : false
+                      }
+                    />
+                  </Grid>
+                  <Grid
+                    container
+                    xs={2}
+                    sm={0}
+                    md={1}
+                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
+                  ></Grid>
+                </Fragment>
               ))}
-            </Grid>
-          </Box>
-        )}
+            {!done &&
+              skeleton.map((card) => (
+                <Fragment key={card}>
+                  <Grid
+                    container
+                    xs={2}
+                    sm={0}
+                    md={1}
+                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
+                  ></Grid>{" "}
+                  <Grid xs={8} sm={6} md={4} key={card}>
+                    <SkeletonTamplateForCard cardIsInHome={true} />
+                  </Grid>
+                  <Grid
+                    container
+                    xs={2}
+                    sm={0}
+                    md={1}
+                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
+                  ></Grid>{" "}
+                </Fragment>
+              ))}
+          </Grid>
+          <Grid xs={12} md={12}>
+            <AboutMe />
+          </Grid>
+        </Grid>
       </Box>
     );
   } else if (initialDataFromServer.length > 0 && cards.length == 0) {
@@ -187,3 +206,54 @@ const HomePage = () => {
 };
 
 export default HomePage;
+
+/* {initialDataFromServer.length > 0 && cards.length > 0 && (
+  <Box sx={{ flexGrow: 1 }}>
+  <Grid container spacing={3}>
+      {cards.map((card) => (
+        <Grid xs={12} sm={6} md={3} key={card._id}>
+          <TemplateCardComponent
+            id={card._id}
+            title={card.title}
+            subTitle={card.subtitle}
+            phone={card.phone}
+            description={card.description}
+            url={card.image.url}
+            onEditCard={handleEditCard}
+            onLikedCard={handleLikeCard}
+            onDeleteCard={handeDeleteCard}
+            likeFromData={card.likes.includes(userId) ? true : false}
+            canDelete={
+              card.user_id == userId || userData.isAdmin ? true : false
+            }
+          />
+          </Grid>
+          ))}
+          </Grid>
+          </Box>
+          )}
+          {!initialDataFromServer.length && allCards && (
+  <Box sx={{ flexGrow: 1 }}>
+  <Grid container spacing={3}>
+  {allCards.map((card) => (
+    <Grid xs={12} sm={6} md={3} key={card._id}>
+          <TemplateCardComponent
+            id={card._id}
+            title={card.title}
+            subTitle={card.subtitle}
+            phone={card.phone}
+            description={card.description}
+            url={card.image.url}
+            onEditCard={handleEditCard}
+            onLikedCard={handleLikeCard}
+            onDeleteCard={handeDeleteCard}
+            likeFromData={card.likes.includes(userId) ? true : false}
+            canDelete={
+              card.user_id == userId || userData.isAdmin ? true : false
+            }
+            />
+        </Grid>
+      ))}
+    </Grid>
+    </Box>
+)}*/

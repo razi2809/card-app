@@ -1,10 +1,30 @@
-import React from "react";
-import NavLinkComponent from "../layout/header/NavLinkComponent";
+import React, { memo, useEffect, useState } from "react";
+import NavLinkComponent from "./NavLinkComponent";
 import links from "../layout/header/Mylinks";
+import axios from "axios";
+import ErrorMessage from "../tostifyHandeker/ErrorMessage";
+import { useSelector } from "react-redux";
 
 const { alwaysLinks, loggedinLinks, loggedoutLinks, adminType, businessType } =
   links;
 const LinksComponent = ({ loggedin, userInfo }) => {
+  const depends = useSelector((bigPie) => bigPie.likeReducer);
+  const [cards, SetCards] = useState("");
+  useEffect(() => {
+    if (userInfo) {
+      axios
+        .get("/cards")
+        .then(function (response) {
+          const LikedCards = response.data.filter((card) =>
+            card.likes.includes(userInfo._id)
+          );
+          SetCards(LikedCards);
+        })
+        .catch(function (error) {
+          ErrorMessage(error.response);
+        });
+    }
+  }, [userInfo, depends]);
   return (
     <>
       {loggedin &&
@@ -24,6 +44,11 @@ const LinksComponent = ({ loggedin, userInfo }) => {
           {myItem.children}
         </NavLinkComponent>
       ))}
+      {cards.length > 0 && (
+        <NavLinkComponent to={"/cards/favorite"} key={"/cards/favorite"}>
+          favorite
+        </NavLinkComponent>
+      )}
       {userInfo &&
         userInfo.isBusiness &&
         businessType.map((myItem) => (
@@ -42,4 +67,4 @@ const LinksComponent = ({ loggedin, userInfo }) => {
   );
 };
 
-export default LinksComponent;
+export default memo(LinksComponent);

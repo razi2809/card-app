@@ -3,9 +3,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import TemplateCardComponent from "../components/TemplateCardComponent";
-import { Pagination, Typography } from "@mui/material";
+import { Container, Pagination, Typography } from "@mui/material";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
@@ -13,15 +13,18 @@ import WarningMessage from "../tostifyHandeker/WarningMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import ROUTES from "../routes/ROUTES";
 import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
+import { likeAction } from "../REDUX/likeSlice";
 const FavoriteCards = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const [searchParams] = useSearchParams();
   const userId = useSelector((bigPie) => bigPie.authReducer.userData);
   const [cards, SetCards] = useState("");
   const [done, setDone] = useState(false);
   const search = useSearchquery();
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
-  const skeleton = [0, 1, 2, 3, 4, 5];
+  const skeleton = [0, 1, 2, 3];
   const WhatPage = parseInt(searchParams.get("page")) || 1;
   const [page, setPage] = useState(WhatPage);
   const [numPages, setnumPages] = useState(1);
@@ -117,6 +120,8 @@ const FavoriteCards = () => {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
+        dispatch(likeAction.changeState(true));
+
         //it does unlike the card so give him maasege
         SuccessMessage("unliked");
         cards.map((card, index) => {
@@ -141,7 +146,7 @@ const FavoriteCards = () => {
   if (done) {
     if (initialDataFromServer.length > 0 && cards.length > 0) {
       return (
-        <>
+        <Container>
           {cards && (
             <Box sx={{ flexGrow: 1, mt: "1em" }}>
               <Grid container spacing={3}>
@@ -178,7 +183,7 @@ const FavoriteCards = () => {
               )}
             </Box>
           )}
-        </>
+        </Container>
       );
     } else if (initialDataFromServer.length > 0 && cards.length == 0) {
       //no one match after the search
@@ -187,15 +192,17 @@ const FavoriteCards = () => {
   } else {
     //the check for like isn't done yet
     return (
-      <Box sx={{ flexGrow: 1, mt: "1em" }}>
-        <Grid container spacing={3}>
-          {skeleton.map((card) => (
-            <Grid xs={12} sm={6} md={3} key={card}>
-              <SkeletonTamplateForCard />
-            </Grid>
-          ))}
-        </Grid>
-      </Box>
+      <Container>
+        <Box sx={{ flexGrow: 1, mt: "1em" }}>
+          <Grid container spacing={3}>
+            {skeleton.map((card) => (
+              <Grid xs={12} sm={6} md={3} key={card}>
+                <SkeletonTamplateForCard />
+              </Grid>
+            ))}
+          </Grid>
+        </Box>
+      </Container>
     );
   }
 };

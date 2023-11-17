@@ -7,12 +7,11 @@ import SaveChangeButton from "./SaveChangeButton";
 const UsersTableComponent = ({ onDeleteuser, dataOfUsers, users, loading }) => {
   const [myData, setMyData] = useState(dataOfUsers);
   const [rowId, SetRowId] = useState("");
-
   const columns = [
     {
       field: "avatar",
       headerName: "avatar",
-      renderCell: (params) => <Avatar src={params.row.Avatar} />,
+      renderCell: (params) => <Avatar src={params.row.avatar} />,
       sortable: false,
       filterable: false,
       width: 60,

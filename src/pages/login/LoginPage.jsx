@@ -13,13 +13,13 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { validateLogin } from "../../validation/loginValidation";
-import { Alert } from "@mui/material";
+import { Alert, Container } from "@mui/material";
 import useAutoLogin from "../../hooks/useAutoLogin";
 import { storeToken } from "../../service/tokenservice";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../../tostifyHandeker/SuccessMessage";
 import ROUTES from "../../routes/ROUTES";
-import NavLinkComponent from "../../layout/header/NavLinkComponent";
+import NavLinkComponent from "../../components/NavLinkComponent";
 
 const LoginPage = () => {
   const [secondtrychance, setSeconrychance] = useState(false);
@@ -82,107 +82,105 @@ const LoginPage = () => {
     setErrorsState(joiResponse);
   };
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: "url(https://source.unsplash.com/random?wallpapers)",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) =>
-            t.palette.mode === "light"
-              ? t.palette.grey[50]
-              : t.palette.grey[900],
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Box
+    <Container>
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage:
+              "url(https://source.unsplash.com/random?wallpapers)",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) =>
+              t.palette.mode === "light"
+                ? t.palette.grey[50]
+                : t.palette.grey[900],
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <Box
-            component="form"
-            noValidate
-            onSubmit={handleSubmit}
-            sx={{ mt: 1 }}
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              value={emailValue}
-              onChange={handleEmailInputChange}
-            />
-            {errorsState && errorsState.email && (
-              <Alert severity="warning">{errorsState.email}</Alert>
-            )}
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              value={passwordValue}
-              onChange={handlePasswordInputChange}
-            />
-            {errorsState && errorsState.password && (
-              <Alert severity="warning">{errorsState.password}</Alert>
-            )}
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              checked={rememberMe}
-              onChange={wanstToRemember}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              disabled={errorsState !== null}
-              //
-              sx={{ mt: 3, mb: 2 }}
+            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
+            <Box
+              component="form"
+              noValidate
+              onSubmit={handleSubmit}
+              sx={{ mt: 1 }}
             >
-              Sign In
-            </Button>
-            <Grid container>
-              {/* <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid> */}
-              <Button variant="contained" fullWidth>
-                <NavLinkComponent to={ROUTES.REGISTER}>
-                  Don't have an account? Sign Up
-                </NavLinkComponent>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={emailValue}
+                onChange={handleEmailInputChange}
+              />
+              {errorsState && errorsState.email && (
+                <Alert severity="warning">{errorsState.email}</Alert>
+              )}
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={passwordValue}
+                onChange={handlePasswordInputChange}
+              />
+              {errorsState && errorsState.password && (
+                <Alert severity="warning">{errorsState.password}</Alert>
+              )}
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                checked={rememberMe}
+                onChange={wanstToRemember}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                disabled={errorsState !== null}
+                //
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign In
               </Button>
-            </Grid>
+              <Grid container>
+                <Button variant="contained" fullWidth>
+                  <NavLinkComponent to={ROUTES.REGISTER}>
+                    Don't have an account? Sign Up
+                  </NavLinkComponent>
+                </Button>
+              </Grid>
+            </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Container>
   );
 };
 

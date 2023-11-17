@@ -18,6 +18,7 @@ import SandBoxPage from "../pages/sandBoxPage";
 import AuthAdminGuard from "../Guard/AuthAdminGuard";
 import AuthBusinessGuard from "../Guard/AuthBusinessGuard";
 import SandBoxPageTest from "../components/usersTableComponent";
+import AboutMe from "../components/AboutMe";
 const Router = () => {
   return (
     <Routes>
@@ -49,6 +50,7 @@ const Router = () => {
           </AuthPreventNoAlert>
         }
       />
+      <Route path={ROUTES.ABOUT} element={<AboutMe />} />
       <Route
         path={ROUTES.REGISTER}
         element={

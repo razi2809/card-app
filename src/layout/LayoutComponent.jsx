@@ -17,7 +17,7 @@ const LayoutComponent = ({ children }) => {
   const lightTheme = createTheme({
     palette: {
       primary: {
-        main: purple[500],
+        main: "#e3f2fd",
       },
       secondary: {
         main: "#f44336",

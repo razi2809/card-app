@@ -29,11 +29,20 @@ const ProfileEdit = () => {
   const [inputsValue, setInputsValue] = useState({
     firstName: userDate.name.first,
     lastName: userDate.name.last,
-    email: userDate.email,
     phone: userDate.phone,
+    url: userDate.image.url,
     country: userDate.address.country,
     city: userDate.address.city,
     street: userDate.address.street,
+  });
+  const [inputsSkeleton, setInputsSkelton] = useState({
+    firstName: "",
+    lastName: "",
+    phone: "",
+    url: "",
+    country: "",
+    city: "",
+    street: "",
   });
   useEffect(() => {
     if (userinfo.isAdmin) {
@@ -45,9 +54,8 @@ const ProfileEdit = () => {
           setInputsValue({
             firstName: response.data.name.first,
             lastName: response.data.name.last,
-            url: response.data.image.url,
-            // email: response.data.email,
             phone: response.data.phone,
+            url: response.data.image.url,
             country: response.data.address.country,
             city: response.data.address.city,
             street: response.data.address.street,
@@ -89,12 +97,16 @@ const ProfileEdit = () => {
         navigate(ROUTES.HOME);
       })
       .catch(function (error) {
-        console.log(error);
         ErrorMessage(error.response.data);
       });
   };
 
-  if (userDate && done) {
+  if (done && userDate == null) {
+    //sholdnt happen unlees server erro
+    return (
+      <Typography variant="h1">didnt succeed geting the user info</Typography>
+    );
+  } else if (userDate) {
     return (
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -106,11 +118,12 @@ const ProfileEdit = () => {
             alignItems: "center",
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
+          <Avatar
+            sx={{ m: 1, bgcolor: "secondary.main" }}
+            src={done ? userDate.image.url : "/static/images/avatar/2.jpg"}
+          />
           <Typography component="h1" variant="h5">
-            information of {inputsValue.firstName}{" "}
+            information of {done ? inputsValue.firstName : ""}{" "}
             {disableEdit && (
               <Button onClick={handleWantToEdit}>edit user</Button>
             )}
@@ -123,19 +136,33 @@ const ProfileEdit = () => {
             sx={{ mt: 3 }}
           >
             <Grid container spacing={4}>
-              {Object.keys(inputsValue).map((key) => (
-                <Grid container item spacing={2} key={key}>
-                  <TextField
-                    disabled={disableEdit}
-                    fullWidth
-                    id={key}
-                    type={key}
-                    label={key}
-                    value={inputsValue[key]}
-                    onChange={handleInputsChange}
-                  />
-                </Grid>
-              ))}
+              {done &&
+                Object.keys(inputsValue).map((key) => (
+                  <Grid container item spacing={2} key={key}>
+                    <TextField
+                      disabled={disableEdit}
+                      fullWidth
+                      id={key}
+                      type={key}
+                      label={key}
+                      value={inputsValue[key]}
+                      onChange={handleInputsChange}
+                    />
+                  </Grid>
+                ))}
+              {!done &&
+                Object.keys(inputsSkeleton).map((key) => (
+                  <Grid container item spacing={2} key={key}>
+                    <TextField
+                      disabled={disableEdit}
+                      fullWidth
+                      id={key}
+                      type={key}
+                      label={key}
+                      value={inputsSkeleton[key]}
+                    />
+                  </Grid>
+                ))}
               {!disableEdit && (
                 <>
                   <Button
@@ -154,14 +181,6 @@ const ProfileEdit = () => {
         </Box>
       </Container>
     );
-  } else if (done) {
-    //sholdnt happen unlees server erro
-    return (
-      <Typography variant="h1">didnt succeed geting the user info</Typography>
-    );
-  } else if (!done) {
-    return <Typography variant="h1">wating for the server...</Typography>;
   }
 };
-
 export default ProfileEdit;

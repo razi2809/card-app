@@ -8,13 +8,42 @@ import {
   Skeleton,
   Tooltip,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
-const SkeletonTamplateForCard = () => {
+const SkeletonTamplateForCard = ({ cardIsInHome }) => {
+  const ref = useRef();
+  const [cardHaveEffect, setcardHaveEffect] = useState(cardIsInHome);
+
+  const options = {
+    rootMargin: "0px",
+    threshold: 0.5,
+  };
+  const observe = (enries) => {
+    enries.forEach((entry) => {
+      {
+        if (entry.isIntersecting) {
+          if (ref.current.classList.contains("displayNone")) {
+            ref.current.classList.add("animatedBottom");
+            ref.current.classList.remove("displayNone");
+            setTimeout(() => {
+              setcardHaveEffect(false);
+            }, [1000]);
+          } else return;
+        }
+      }
+    });
+  };
+  const observer = new IntersectionObserver(observe, options);
+
+  useEffect(() => {
+    observer.observe(ref.current);
+  }, []);
   return (
     <Card
+      ref={ref}
+      className={cardHaveEffect ? "displayNone" : ""}
       sx={{
         // boxShadow: "2px 2px 5px",
         // border: "3px solid grey",

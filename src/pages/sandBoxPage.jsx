@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
 import TamplateUserComponent from "../components/TamplateUserComponent";
-import { Box, Grid, Pagination, Typography } from "@mui/material";
+import { Box, Container, Grid, Pagination, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
@@ -102,7 +102,7 @@ const SandBoxPage = () => {
       //if he dose search something then show the result
       setDisplayData(filteredCards);
     } else {
-      //if not or if he deleted thje search slice the user depends on the page
+      //if not or if he deleted the search slice the user depends on the page
       setDisplayData(
         dataFromServer.slice((page - 1) * TOTAL_PER_PAGE, page * TOTAL_PER_PAGE)
       );
@@ -110,94 +110,95 @@ const SandBoxPage = () => {
   }, [search.filter, initialDataFromServer]);
 
   return (
-    <Box>
-      <Typography variant="h3" sx={{ textAlign: "center", mt: 3, mb: 3 }}>
-        manage users
-      </Typography>
-      <Box
-        sx={{
-          mb: 2,
-        }}
-      >
-        <GridviewLayout handleDevices={handleDevicesChage} />
-      </Box>
-      {layout === "table" && done && dataFromServer.length > 0 && (
-        <UsersTableComponent
-          dataOfUsers={dataFromServer.map((user) => {
-            return {
-              id: user._id,
-              firstName: user.name.first,
-              lastName: user.name.last,
-              email: user.email,
-              phone: user.phone,
-              createdAt: user.createdAt,
-              avatar: user.image.url,
-              country: user.address.country,
-            };
-          })}
-          // loading={!done}
-          onEdituser={handleEdituser}
-          onDeleteuser={handeDeleteuser}
-          users={dataFromServer}
-        />
-      )}
-      {layout === "table" && !done && <TableSkeleton />}
-      {layout === "grid" && done && dataFromServer.length > 0 && (
-        <Box sx={{ flexGrow: 1, mt: "1em" }}>
-          <Grid container spacing={3}>
-            {displayData.map((user) => (
-              <Grid xs={12} sm={6} md={3} key={user._id} item>
-                <TamplateUserComponent
-                  id={user._id}
-                  firstName={user.name.first}
-                  lastName={user.name.last}
-                  email={user.email}
-                  phone={user.phone}
-                  country={user.address.country}
-                  city={user.address.city}
-                  onEdituser={handleEdituser}
-                  onDeleteuser={handeDeleteuser}
-                />
-              </Grid>
-            ))}
-          </Grid>
-          {numPages && (
+    <Container>
+      <Box>
+        <Typography variant="h3" sx={{ textAlign: "center", mt: 3, mb: 3 }}>
+          manage users
+        </Typography>
+        <Box
+          sx={{
+            mb: 2,
+          }}
+        >
+          <GridviewLayout handleDevices={handleDevicesChage} />
+        </Box>
+        {layout === "table" && done && dataFromServer.length > 0 && (
+          <UsersTableComponent
+            dataOfUsers={dataFromServer.map((user) => {
+              return {
+                id: user._id,
+                firstName: user.name.first,
+                lastName: user.name.last,
+                email: user.email,
+                phone: user.phone,
+                createdAt: user.createdAt,
+                avatar: user.image.url,
+                country: user.address.country,
+              };
+            })}
+            onEdituser={handleEdituser}
+            onDeleteuser={handeDeleteuser}
+            users={dataFromServer}
+          />
+        )}
+        {layout === "table" && !done && <TableSkeleton />}
+        {layout === "grid" && done && dataFromServer.length > 0 && (
+          <Box sx={{ flexGrow: 1, mt: "1em" }}>
+            <Grid container spacing={3}>
+              {displayData.map((user) => (
+                <Grid xs={12} sm={6} md={3} key={user._id} item>
+                  <TamplateUserComponent
+                    id={user._id}
+                    firstName={user.name.first}
+                    lastName={user.name.last}
+                    email={user.email}
+                    phone={user.phone}
+                    country={user.address.country}
+                    city={user.address.city}
+                    onEdituser={handleEdituser}
+                    onDeleteuser={handeDeleteuser}
+                  />
+                </Grid>
+              ))}
+            </Grid>
+            {numPages && (
+              <Pagination
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignContent: "center",
+                  mt: 2,
+                }}
+                count={numPages}
+                page={page}
+                onChange={handlePageChange}
+              />
+            )}
+          </Box>
+        )}
+        {layout === "grid" && !done && (
+          <Box sx={{ flexGrow: 1, mt: "1em" }}>
+            <Grid container spacing={3}>
+              {skeleton.map((card) => (
+                <Grid xs={12} sm={6} md={3} key={card} item>
+                  <SkeletonTamplateForUser />
+                </Grid>
+              ))}
+            </Grid>
             <Pagination
               sx={{
                 display: "flex",
                 justifyContent: "center",
                 alignContent: "center",
-                mt: 2,
+                mt: 4,
               }}
-              count={numPages}
-              page={page}
-              onChange={handlePageChange}
+              count={5}
+              page={1}
             />
-          )}
-        </Box>
-      )}
-      {layout === "grid" && !done && (
-        <Box sx={{ flexGrow: 1, mt: "1em" }}>
-          <Grid container spacing={3}>
-            {skeleton.map((card) => (
-              <Grid xs={12} sm={6} md={3} key={card} item>
-                <SkeletonTamplateForUser />
-              </Grid>
-            ))}
-          </Grid>
-          <Pagination
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              mt: 4,
-            }}
-            count={5}
-            page={1}
-          />
-        </Box>
-      )}
-    </Box>
+          </Box>
+        )}
+      </Box>
+    </Container>
   );
 };
 export default SandBoxPage;

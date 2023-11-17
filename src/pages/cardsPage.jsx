@@ -6,17 +6,19 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCallback } from "react";
-import { Typography } from "@mui/material";
-import { useSelector } from "react-redux";
+import { Container, Typography } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import Pagination from "@mui/material/Pagination";
 import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
-const memoCard = React.memo(TemplateCardComponent);
+import { likeAction } from "../REDUX/likeSlice";
 export default function Cards() {
   const search = useSearchquery();
+  const dispatch = useDispatch();
+
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
   const [dataFromServer, setDataFromServer] = useState([]);
   const userData = useSelector((bigPie) => bigPie.authReducer.userInfo);
@@ -25,8 +27,8 @@ export default function Cards() {
   const navigate = useNavigate();
   const WhatPage = parseInt(searchParams.get("page")) || 1;
   const [page, setPage] = useState(WhatPage);
-  const TOTAL_PER_PAGE = 6;
-  const skeleton = [0, 1, 2, 3, 4, 5];
+  const TOTAL_PER_PAGE = 8;
+  const skeleton = [0, 1, 2, 3, 4, 5, 6, 7];
   const [numPages, setnumPages] = useState(0);
   const [displayData, setDisplayData] = useState([]);
   useEffect(() => {
@@ -95,6 +97,8 @@ export default function Cards() {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
+        dispatch(likeAction.changeState(true));
+
         if (!like) {
           SuccessMessage("liked");
         } else {
@@ -123,54 +127,57 @@ export default function Cards() {
     displayData.length > 0
   ) {
     return (
-      <Box sx={{ flexGrow: 1, mt: "1em" }}>
-        <Grid container spacing={3}>
-          {displayData.map((card) => (
-            <Grid xs={12} sm={6} md={3} key={card._id}>
-              <memoCard
-                id={card._id}
-                title={card.title}
-                subTitle={card.subtitle}
-                phone={card.phone}
-                description={card.description}
-                url={card.image.url}
-                onEditCard={handleEditCard}
-                onLikedCard={handleLikeCard}
-                onDeleteCard={handeDeleteCard}
-                likeFromData={card.likes.includes(userId) ? true : false}
-                canDelete={
-                  card.user_id == userId || userData.isAdmin ? true : false
-                }
-              />
-            </Grid>
-          ))}
-        </Grid>
-        {numPages && (
-          <Pagination
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignContent: "center",
-              mt: 4,
-            }}
-            count={numPages}
-            page={page}
-            onChange={handlePageChange}
-          />
-        )}
-      </Box>
+      <Container>
+        <Box sx={{ flexGrow: 1, mt: "1em" }}>
+          <Grid container spacing={3}>
+            {displayData.map((card) => (
+              <Grid xs={12} sm={6} md={3} key={card._id}>
+                <TemplateCardComponent
+                  cardIsInHome={true}
+                  id={card._id}
+                  title={card.title}
+                  subTitle={card.subtitle}
+                  phone={card.phone}
+                  description={card.description}
+                  url={card.image.url}
+                  onEditCard={handleEditCard}
+                  onLikedCard={handleLikeCard}
+                  onDeleteCard={handeDeleteCard}
+                  likeFromData={card.likes.includes(userId) ? true : false}
+                  canDelete={
+                    card.user_id == userId || userData.isAdmin ? true : false
+                  }
+                />
+              </Grid>
+            ))}
+          </Grid>
+          {numPages && (
+            <Pagination
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                mt: 4,
+              }}
+              count={numPages}
+              page={page}
+              onChange={handlePageChange}
+            />
+          )}
+        </Box>
+      </Container>
     );
   } else if (initialDataFromServer.length > 0 && displayData.length == 0) {
     //no one match after the search
     return <Typography variant="h1">No card match</Typography>;
   } else {
     return (
-      <>
+      <Container>
         <Box sx={{ flexGrow: 1, mt: "1em" }}>
           <Grid container spacing={3}>
             {skeleton.map((card) => (
               <Grid xs={12} sm={6} md={3} key={card}>
-                <SkeletonTamplateForCard />
+                <SkeletonTamplateForCard cardIsInHome={true} />
               </Grid>
             ))}
           </Grid>
@@ -186,7 +193,7 @@ export default function Cards() {
             page={1}
           />
         </Box>{" "}
-      </>
+      </Container>
     );
   }
 }
