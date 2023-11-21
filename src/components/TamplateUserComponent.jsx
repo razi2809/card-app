@@ -6,30 +6,22 @@ import {
   CardContent,
   Box,
   Tooltip,
-  CardActions,
-  Collapse,
-  Typography,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import PropTypes from "prop-types";
 import { memo, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
-import { styled } from "@mui/material/styles";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const TamplateUserComponent = ({
   firstName,
   lastName,
   email,
   id,
-  city,
-  country,
-  phone,
   onDeleteuser,
   onEdituser,
 }) => {
-  const [expanded, setExpanded] = useState(false);
+  // console.log(canDelete);
   const [deleteUser, setDeletedUser] = useState(false);
   const loggedin = useSelector((bigPie) => bigPie.authReducer.loggedIn);
   const handleDeleteUser = () => {
@@ -42,28 +34,23 @@ const TamplateUserComponent = ({
     //send the father id of the user
     onEdituser(id);
   };
-  const ExpandMore = styled((props) => {
-    const { expand, ...other } = props;
-    return <IconButton {...other} />;
-  })(({ theme, expand }) => ({
-    transform: !expand ? "rotate(0deg)" : "rotate(180deg)",
-    marginLeft: "auto",
-    transition: theme.transitions.create("transform", {
-      duration: theme.transitions.duration.shortest,
-    }),
-  }));
-  const handleExpandClick = () => {
-    setExpanded(!expanded);
-  };
+
   if (!deleteUser) {
     return (
-      <Card>
+      <Card
+        sx={
+          {
+            // boxShadow: "2px 2px 5px",
+            // border: "3px solid grey",
+            // borderRadius: "8px",
+          }
+        }
+      >
         <CardActionArea>
           <CardHeader
             title={firstName}
             subheader={lastName}
             sx={{
-              height: 100,
               backgroundColor: "grey",
               color: "black",
               textAlign: "center",
@@ -80,42 +67,17 @@ const TamplateUserComponent = ({
             {email}
           </CardContent>
         </CardActionArea>
-        <Collapse in={expanded} timeout="auto" unmountOnExit>
-          <CardContent>
-            <Typography sx={{ mt: 1, mb: 2, textAlign: "center" }}>
-              user's phone: {phone}
-            </Typography>
-            <Typography sx={{ textAlign: "center" }}>
-              users's address: <br></br>
-              country: {country} <br></br>
-              city: {city}
-            </Typography>
-          </CardContent>
-        </Collapse>
-        <Box
-        // sx={{ display: "flex", justifyContent: "center" }}
-        >
-          <CardActions disableSpacing>
-            <Tooltip title="Edit user">
-              <IconButton onClick={handleEditUser} aria-label="do staff">
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title="Delete user">
-              <IconButton onClick={handleDeleteUser} aria-label="do staff">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-            <ExpandMore
-              title={!expanded ? "view more" : "view less"}
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          </CardActions>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <Tooltip title="Edit user">
+            <IconButton onClick={handleEditUser} aria-label="do staff">
+              <EditIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="Delete user">
+            <IconButton onClick={handleDeleteUser} aria-label="do staff">
+              <DeleteIcon />
+            </IconButton>
+          </Tooltip>
         </Box>
       </Card>
     );

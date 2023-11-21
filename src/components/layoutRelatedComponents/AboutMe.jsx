@@ -1,14 +1,13 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Grid,
   Box,
   Avatar,
-  Paper,
   Typography,
   CardMedia,
   Card,
 } from "@mui/material";
-import reactPic from "../assets/react-code.jpeg";
+import reactPic from "../../assets/react-code.jpeg";
 const AboutMe = () => {
   const [disableView, setDisableView] = useState(true);
   const AvatarRef = useRef();
@@ -16,7 +15,7 @@ const AboutMe = () => {
   const picRef = useRef();
   const options = {
     rootMargin: "0px",
-    threshold: 0.5,
+    threshold: 0.3,
   };
   const observe = (enries) => {
     enries.forEach((entry) => {

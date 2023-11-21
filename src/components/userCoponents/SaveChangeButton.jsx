@@ -3,10 +3,10 @@ import React from "react";
 import { green } from "@mui/material/colors";
 import CheckIcon from "@mui/icons-material/Check";
 import SaveIcon from "@mui/icons-material/Save";
-import { normalizUpdatUserFromTable } from "../NormaliezedDate/normalizUpdatUserFromTable";
+import { normalizUpdatUserFromTable } from "../../NormaliezedDate/normalizUpdatUserFromTable";
 import axios from "axios";
-import SuccessMessage from "../tostifyHandeker/SuccessMessage";
-import ErrorMessage from "../tostifyHandeker/ErrorMessage";
+import SuccessMessage from "../../tostifyHandeker/SuccessMessage";
+import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 
 const SaveChangeButton = ({ users, rowId, params }) => {
   const [loading, setLoading] = React.useState(false);

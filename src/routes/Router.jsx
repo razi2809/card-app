@@ -17,8 +17,8 @@ import FavoriteCards from "../pages/FavoritCardPage";
 import SandBoxPage from "../pages/sandBoxPage";
 import AuthAdminGuard from "../Guard/AuthAdminGuard";
 import AuthBusinessGuard from "../Guard/AuthBusinessGuard";
-import SandBoxPageTest from "../components/usersTableComponent";
-import AboutMe from "../components/AboutMe";
+import AboutMe from "../components/layoutRelatedComponents/AboutMe";
+import AboutThePage from "../components/layoutRelatedComponents/AboutThePage";
 const Router = () => {
   return (
     <Routes>
@@ -50,7 +50,7 @@ const Router = () => {
           </AuthPreventNoAlert>
         }
       />
-      <Route path={ROUTES.ABOUT} element={<AboutMe />} />
+      <Route path={ROUTES.ABOUT} element={<AboutThePage />} />
       <Route
         path={ROUTES.REGISTER}
         element={

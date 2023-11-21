@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 
 const SkeletonTamplateForCard = ({ cardIsInHome }) => {
-  const ref = useRef();
+  const ref = useRef(null);
   const [cardHaveEffect, setcardHaveEffect] = useState(cardIsInHome);
 
   const options = {

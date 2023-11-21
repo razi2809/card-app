@@ -6,12 +6,15 @@ import { NavLink } from "react-router-dom";
 const NavLinkComponent = ({ to, children }) => {
   const [mouseOver, setMouseOver] = useState(false);
   const checked = useSelector((bigPie) => bigPie.DarkReducer);
-
+const hanlePageNavigate=()=>{
+  window.scrollTo({top: 0, left: 0});
+}
   return (
     <NavLink
       onMouseEnter={() => setMouseOver(true)}
       onMouseLeave={() => setMouseOver(false)}
       to={to}
+       onClick={hanlePageNavigate}
       style={{ textDecoration: "none" }}
     >
       {({ isActive }) => (
@@ -37,11 +40,5 @@ const NavLinkComponent = ({ to, children }) => {
     </NavLink>
   );
 };
-{
-  /* <Link to={to}>
-      <Typography color="text.primary" sx={{ p: 2 }}>
-        {children}
-      </Typography>
-    </Link> */
-}
+
 export default NavLinkComponent;
