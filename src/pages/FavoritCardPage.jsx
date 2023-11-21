@@ -153,12 +153,7 @@ const FavoriteCards = () => {
                 {cards.map((card) => (
                   <Grid xs={12} sm={6} md={3} key={card._id}>
                     <TemplateCardComponent
-                      id={card._id}
-                      title={card.title}
-                      subTitle={card.subtitle}
-                      phone={card.phone}
-                      description={card.description}
-                      url={card.image.url}
+                      card={card}
                       onEditCard={handleEditCard}
                       onLikedCard={handleLikeCard}
                       onDeleteCard={handeDeleteCard}

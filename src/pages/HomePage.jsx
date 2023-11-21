@@ -1,13 +1,11 @@
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
 import React, { Fragment, useCallback, useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
-import TemplateCardComponent from "../components/TemplateCardComponent";
+import TemplateCardComponent from "../components/cradsComponents/TemplateCardComponent";
 import { Typography } from "@mui/material";
 import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
@@ -142,12 +140,7 @@ const HomePage = () => {
                   <Grid xs={8} sm={6} md={4}>
                     <TemplateCardComponent
                       cardIsInHome={true}
-                      id={card._id}
-                      title={card.title}
-                      subTitle={card.subtitle}
-                      phone={card.phone}
-                      description={card.description}
-                      url={card.image.url}
+                      card={card}
                       onEditCard={handleEditCard}
                       onLikedCard={handleLikeCard}
                       onDeleteCard={handeDeleteCard}

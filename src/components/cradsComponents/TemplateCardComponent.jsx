@@ -31,6 +31,7 @@ const TemplateCardComponent = ({
   canDelete,
   cardIsInHome,
 }) => {
+  console.log(card);
   const id = card._id;
   const title = card.title;
   const subTitle = card.subtitle;

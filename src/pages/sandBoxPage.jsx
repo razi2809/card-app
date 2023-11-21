@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import TamplateUserComponent from "../components/TamplateUserComponent";
+import TamplateUserComponent from "../components/userCoponents/TamplateUserComponent";
 import { Box, Container, Grid, Pagination, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
@@ -148,13 +148,7 @@ const SandBoxPage = () => {
               {displayData.map((user) => (
                 <Grid xs={12} sm={6} md={3} key={user._id} item>
                   <TamplateUserComponent
-                    id={user._id}
-                    firstName={user.name.first}
-                    lastName={user.name.last}
-                    email={user.email}
-                    phone={user.phone}
-                    country={user.address.country}
-                    city={user.address.city}
+                    user={user}
                     onEdituser={handleEdituser}
                     onDeleteuser={handeDeleteuser}
                   />
