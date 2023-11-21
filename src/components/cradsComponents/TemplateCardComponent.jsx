@@ -139,47 +139,56 @@ const TemplateCardComponent = ({
             {description}
           </Typography>
         </CardContent>
-        <CardActions disableSpacing>
-          {!like && loggedin && (
-            <Tooltip title="Like card">
-              <IconButton onClick={handlelikeCardClick} aria-label="do staff">
-                <ThumbUpOutlinedIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-          {like && loggedin && (
-            <Tooltip title="Unlike card">
-              <IconButton onClick={handlelikeCardClick} aria-label="do staff">
-                <ThumbUpIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-          {loggedin && (
-            <Tooltip title="Edit card">
-              <IconButton onClick={handleEditCardClick} aria-label="do staff">
-                <EditIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-          {canDelete && loggedin && (
-            <Tooltip title="Delete card">
-              <IconButton onClick={handleDeleteCardClick} aria-label="do staff">
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip>
-          )}
-          {overflow && (
-            <ExpandMore
-              title={!expanded ? "view more" : "view less"}
-              expand={expanded}
-              onClick={handleExpandClick}
-              aria-expanded={expanded}
-              aria-label="show more"
-            >
-              <ExpandMoreIcon />
-            </ExpandMore>
-          )}
-        </CardActions>
+        {loggedin && (
+          <CardActions disableSpacing>
+            {!like && loggedin && (
+              <Tooltip title="Like card">
+                <IconButton onClick={handlelikeCardClick} aria-label="do staff">
+                  <ThumbUpOutlinedIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+            {like && loggedin && (
+              <Tooltip title="Unlike card">
+                <IconButton onClick={handlelikeCardClick} aria-label="do staff">
+                  <ThumbUpIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+            {loggedin && (
+              <Tooltip title="Edit card">
+                <IconButton onClick={handleEditCardClick} aria-label="do staff">
+                  <EditIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+            {canDelete && loggedin && (
+              <Tooltip title="Delete card">
+                <IconButton
+                  onClick={handleDeleteCardClick}
+                  aria-label="do staff"
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            )}
+          </CardActions>
+        )}
+        {!loggedin && (
+          <CardActions disableSpacing>
+            {overflow && (
+              <ExpandMore
+                title={!expanded ? "view more" : "view less"}
+                expand={expanded}
+                onClick={handleExpandClick}
+                aria-expanded={expanded}
+                aria-label="show more"
+              >
+                <ExpandMoreIcon />
+              </ExpandMore>
+            )}
+          </CardActions>
+        )}
       </Card>
     );
   }

@@ -22,7 +22,10 @@ export default function Cards() {
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
   const [dataFromServer, setDataFromServer] = useState([]);
   const userData = useSelector((bigPie) => bigPie.authReducer.userInfo);
-  const userId = userData._id;
+  const userId = "";
+  if (userData) {
+    userId = userData._id;
+  }
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const WhatPage = parseInt(searchParams.get("page")) || 1;
@@ -140,7 +143,11 @@ export default function Cards() {
                   onDeleteCard={handeDeleteCard}
                   likeFromData={card.likes.includes(userId) ? true : false}
                   canDelete={
-                    card.user_id == userId || userData.isAdmin ? true : false
+                    userData
+                      ? card.user_id == userId || userData.isAdmin
+                        ? true
+                        : false
+                      : false
                   }
                 />
               </Grid>
