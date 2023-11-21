@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/card-app/static/css/main.472a4ff8.css",
-    "main.js": "/card-app/static/js/main.cc281480.js",
+    "main.js": "/card-app/static/js/main.bccb060d.js",
     "static/js/787.75e1f7fc.chunk.js": "/card-app/static/js/787.75e1f7fc.chunk.js",
     "static/media/react-code.jpeg": "/card-app/static/media/react-code.c5d5166f943e8a4a9d92.jpeg",
     "static/media/roboto-latin-500-normal.woff2": "/card-app/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
@@ -62,11 +62,11 @@
     "static/media/roboto-greek-ext-700-normal.woff": "/card-app/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/card-app/index.html",
     "main.472a4ff8.css.map": "/card-app/static/css/main.472a4ff8.css.map",
-    "main.cc281480.js.map": "/card-app/static/js/main.cc281480.js.map",
+    "main.bccb060d.js.map": "/card-app/static/js/main.bccb060d.js.map",
     "787.75e1f7fc.chunk.js.map": "/card-app/static/js/787.75e1f7fc.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.472a4ff8.css",
-    "static/js/main.cc281480.js"
+    "static/js/main.bccb060d.js"
   ]
 }
