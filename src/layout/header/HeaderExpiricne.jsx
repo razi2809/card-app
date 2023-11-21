@@ -13,14 +13,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { DarkActions } from "../../REDUX/DarkTheme";
 import NightlightIcon from "@mui/icons-material/Nightlight";
 import LightModeIcon from "@mui/icons-material/LightMode";
-import NavLinkComponent from "../../components/NavLinkComponent";
+import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
 import { authActions } from "../../REDUX/authSlice";
 import { Button, Drawer } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import FilterComponent from "./serachcomponent/FilterComponent";
 import WarningMessage from "../../tostifyHandeker/WarningMessage";
-import LinksComponent from "../../components/LinksComponent";
+import LinksComponent from "../../components/layoutRelatedComponents/LinksComponent";
 
 function ResponsiveAppBar({ darkEnable }) {
   const dispatch = useDispatch();

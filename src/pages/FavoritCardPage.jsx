@@ -4,7 +4,7 @@ import axios from "axios";
 import React, { useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import TemplateCardComponent from "../components/TemplateCardComponent";
+import TemplateCardComponent from "../components/cradsComponents/TemplateCardComponent";
 import { Container, Pagination, Typography } from "@mui/material";
 import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
@@ -12,7 +12,7 @@ import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import ROUTES from "../routes/ROUTES";
-import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
+import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
 import { likeAction } from "../REDUX/likeSlice";
 const FavoriteCards = () => {
   const navigate = useNavigate();

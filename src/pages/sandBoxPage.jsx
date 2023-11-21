@@ -7,10 +7,10 @@ import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import useSearchquery from "../hooks/useSearchParams";
-import UsersTableComponent from "../components/usersTableComponent";
-import GridviewLayout from "../components/GridviewLayout";
-import TableSkeleton from "../components/TableSkeleton";
-import SkeletonTamplateForUser from "../components/SkeletonTamplateForUser";
+import UsersTableComponent from "../components/userCoponents/usersTableComponent";
+import GridviewLayout from "../components/layoutRelatedComponents/GridviewLayout";
+import TableSkeleton from "../components/userCoponents/TableSkeleton";
+import SkeletonTamplateForUser from "../components/userCoponents/SkeletonTamplateForUser";
 const SandBoxPage = () => {
   const [dataFromServer, setDataFromServer] = useState([]);
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);

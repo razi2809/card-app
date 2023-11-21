@@ -2,7 +2,7 @@ import { Box, Grid } from "@mui/material";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ref } from "joi";
 import { useEffect, useRef } from "react";
-import TrendingDownIcon from "@material-ui/icons/TrendingDown";
+// import TrendingDownIcon from "@material-ui/icons/TrendingDown";
 export default function App() {
   const ref = useRef(null);
   const refPge = useRef(null);
@@ -78,7 +78,7 @@ export default function App() {
                 translateY: translatY,
               }}
             >
-              <TrendingDownIcon />
+              {/* <TrendingDownIcon /> */}
             </motion.div>
           </div>
         </Grid>

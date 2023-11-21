@@ -19,7 +19,7 @@ import { storeToken } from "../../service/tokenservice";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../../tostifyHandeker/SuccessMessage";
 import ROUTES from "../../routes/ROUTES";
-import NavLinkComponent from "../../components/NavLinkComponent";
+import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
 
 const LoginPage = () => {
   const [secondtrychance, setSeconrychance] = useState(false);

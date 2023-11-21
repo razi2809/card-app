@@ -1,7 +1,7 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
-import TemplateCardComponent from "../components/TemplateCardComponent";
+import TemplateCardComponent from "../components/cradsComponents/TemplateCardComponent";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -13,7 +13,7 @@ import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import Pagination from "@mui/material/Pagination";
-import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
+import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
 import { likeAction } from "../REDUX/likeSlice";
 export default function Cards() {
   const search = useSearchquery();

@@ -14,11 +14,9 @@ import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
-import SkeletonTamplateForCard from "../components/SkeletonTamplateForCard";
+import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
 import { likeAction } from "../REDUX/likeSlice";
-import { useInView } from "react-intersection-observer";
-import AboutMe from "../components/AboutMe";
-
+import AboutMe from "../components/layoutRelatedComponents/AboutMe";
 
 const HomePage = () => {
   const navigate = useNavigate();

@@ -12,10 +12,10 @@ import {
 import RestoreIcon from "@mui/icons-material/Restore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import NavLinkComponent from "../../components/NavLinkComponent";
+import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LinksComponent from "../../components/LinksComponent";
+import LinksComponent from "../../components/layoutRelatedComponents/LinksComponent";
 
 const FooterComponent = () => {
   const navigate = useNavigate();
