@@ -39,9 +39,10 @@ const HomePage = () => {
           axios.get("/cards").then(function (response) {
             SetallCards(response.data.slice(0, 4));
             setInitialDataFromServer(response.data);
-            setDone(true);
           });
+          setDone(true);
         })
+
         .catch(function (error) {
           //this will catch the error from the server
           ErrorMessage(error.response);
@@ -144,6 +145,7 @@ const HomePage = () => {
               </Typography>
             </Grid>
             {done &&
+              allCards.length &&
               allCards.map((card) => (
                 <Fragment key={card._id}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
