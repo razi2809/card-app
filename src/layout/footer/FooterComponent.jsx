@@ -1,17 +1,6 @@
 import { useState } from "react";
-import {
-  AppBar,
-  BottomNavigation,
-  BottomNavigationAction,
-  Box,
-  Container,
-  Grid,
-  TextField,
-  Typography,
-} from "@mui/material";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
+import { AppBar, Box, Container, Grid, Typography } from "@mui/material";
+
 import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -62,13 +51,7 @@ const FooterComponent = () => {
                 <LinksComponent loggedin={loggedin} userInfo={userInfo} />
               </Box>
             </Grid>
-            <Grid
-              item
-              xs={12}
-              sm={6}
-              md={3}
-              sx={{ display: { xs: "none", sm: "flex", md: "flex" } }}
-            >
+            <Grid item xs={false} sm={6} md={3}>
               <Box
                 sx={{
                   display: "flex",

@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -17,8 +14,6 @@ import SuccessMessage from "../../tostifyHandeker/SuccessMessage";
 import { useNavigate } from "react-router-dom";
 import ROUTES from "../../routes/ROUTES";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
-import { Business } from "@mui/icons-material";
-
 const RegisterPage = () => {
   const [inputsValue, setInputsValue] = useState({
     firstName: "",
@@ -96,7 +91,6 @@ const RegisterPage = () => {
       ErrorMessage(err);
     }
   };
-
   return (
     <Container component="main" maxWidth="md">
       <Box
@@ -108,7 +102,6 @@ const RegisterPage = () => {
           justifyContent: "center",
         }}
       >
-        {" "}
         <Box
           sx={{
             // marginTop: 8,
@@ -125,14 +118,22 @@ const RegisterPage = () => {
           </Typography>
         </Box>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          {" "}
-          <Grid container spacing={4}>
-            <Grid container spacing={4} sx={{ mt: "1em" }}>
-              <Grid item xs={6}>
-                {Object.keys(inputsValue)
-                  .slice(0, Math.ceil(Object.keys(inputsValue).length / 2))
-                  .map((key) => (
-                    <Grid container spacing={2} key={key} sx={{ mb: "1.8em" }}>
+          <Grid container spacing={4} sx={{ mt: 0 }}>
+            <Grid container item md={6} sm={6} xs={12}>
+              {Object.keys(inputsValue)
+                .slice(0, Math.ceil(Object.keys(inputsValue).length / 2))
+                .map((key) => (
+                  <Fragment key={key}>
+                    <Grid item container xs={1} sm={false} md={false}></Grid>
+                    <Grid
+                      container
+                      item
+                      spacing={2}
+                      xs={10}
+                      sm={12}
+                      md={12}
+                      sx={{ mb: "1.8em" }}
+                    >
                       <TextField
                         fullWidth
                         autoFocus={key == "firstName" ? true : false}
@@ -147,13 +148,25 @@ const RegisterPage = () => {
                         <Alert severity="warning">{errorsState[key]}</Alert>
                       )}
                     </Grid>
-                  ))}
-              </Grid>
-              <Grid item xs={6}>
-                {Object.keys(inputsValue)
-                  .slice(Math.ceil(Object.keys(inputsValue).length / 2))
-                  .map((key) => (
-                    <Grid container spacing={2} key={key} sx={{ mb: "1.8em" }}>
+                    <Grid item container xs={1} sm={false} md={false}></Grid>
+                  </Fragment>
+                ))}
+            </Grid>
+            <Grid container item md={6} sm={6} xs={12}>
+              {Object.keys(inputsValue)
+                .slice(Math.ceil(Object.keys(inputsValue).length / 2))
+                .map((key) => (
+                  <Fragment key={key}>
+                    <Grid item container xs={1} sm={false} md={false}></Grid>
+                    <Grid
+                      container
+                      item
+                      spacing={2}
+                      xs={10}
+                      sm={12}
+                      md={12}
+                      sx={{ mb: "1.8em" }}
+                    >
                       <TextField
                         fullWidth
                         id={key}
@@ -167,25 +180,39 @@ const RegisterPage = () => {
                         <Alert severity="warning">{errorsState[key]}</Alert>
                       )}
                     </Grid>
-                  ))}
-              </Grid>
+                    <Grid item container xs={1} sm={false} md={false}></Grid>{" "}
+                  </Fragment>
+                ))}
             </Grid>
-            <Grid container item spacing={2} sx={{ justifyContent: "center" }}>
-              <Switch checked={business} onChange={handleBusinessChange} />
+            <Grid
+              container
+              item
+              sx={{ justifyContent: "center", alignItems: "center" }}
+              sm={6}
+              xs={6}
+            >
+              {" "}
               <Typography sx={{ display: "flex", alignSelf: "center" }}>
                 is this a business account?
               </Typography>
+              <Switch checked={business} onChange={handleBusinessChange} />
             </Grid>
-
-            <Button
-              type="submit"
-              fullWidth
-              disabled={errorsState !== null}
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+            <Grid
+              item
+              container
+              sx={{ justifyContent: "center" }}
+              sm={6}
+              xs={6}
             >
-              regiser{" "}
-            </Button>
+              <Button
+                type="submit"
+                fullWidth
+                disabled={errorsState !== null}
+                variant="contained"
+              >
+                regiser{" "}
+              </Button>
+            </Grid>
           </Grid>
         </Box>
       </Box>

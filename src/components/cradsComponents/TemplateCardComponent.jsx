@@ -31,7 +31,6 @@ const TemplateCardComponent = ({
   canDelete,
   cardIsInHome,
 }) => {
-  console.log(card);
   const id = card._id;
   const title = card.title;
   const subTitle = card.subtitle;
@@ -172,10 +171,6 @@ const TemplateCardComponent = ({
                 </IconButton>
               </Tooltip>
             )}
-          </CardActions>
-        )}
-        {!loggedin && (
-          <CardActions disableSpacing>
             {overflow && (
               <ExpandMore
                 title={!expanded ? "view more" : "view less"}
@@ -187,6 +182,19 @@ const TemplateCardComponent = ({
                 <ExpandMoreIcon />
               </ExpandMore>
             )}
+          </CardActions>
+        )}
+        {!loggedin && overflow && (
+          <CardActions>
+            <ExpandMore
+              title={!expanded ? "view more" : "view less"}
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </ExpandMore>
           </CardActions>
         )}
       </Card>

@@ -44,6 +44,8 @@ const SandBoxPage = () => {
     //when he clicks to move a page then navigate to a new one
     //the page state will upate automaticly
     setPage(newPage);
+    window.scrollTo({ top: 0, left: 0 });
+
     navigate(`/sandbox?page=${newPage}&view=${WhatView}`);
   };
   const handleEdituser = useCallback((id) => {

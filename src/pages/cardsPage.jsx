@@ -22,7 +22,7 @@ export default function Cards() {
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
   const [dataFromServer, setDataFromServer] = useState([]);
   const userData = useSelector((bigPie) => bigPie.authReducer.userInfo);
-  const userId = "";
+  let userId = "";
   if (userData) {
     userId = userData._id;
   }
@@ -47,6 +47,7 @@ export default function Cards() {
     //when he clicks to move a page then navigate to a new one
     //the page state will upate automaticly
     setPage(newPage);
+    window.scrollTo({ top: 0, left: 0 });
     navigate(`/cards?page=${newPage}`);
   };
   useEffect(() => {

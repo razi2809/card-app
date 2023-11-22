@@ -13,14 +13,14 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import { validateLogin } from "../../validation/loginValidation";
-import { Alert, Container } from "@mui/material";
+import { Alert, Card, CardMedia, Container } from "@mui/material";
 import useAutoLogin from "../../hooks/useAutoLogin";
 import { storeToken } from "../../service/tokenservice";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../../tostifyHandeker/SuccessMessage";
 import ROUTES from "../../routes/ROUTES";
 import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
-
+import reactPic from "../../assets/react-code.jpeg";
 const LoginPage = () => {
   const [secondtrychance, setSeconrychance] = useState(false);
 
@@ -83,30 +83,27 @@ const LoginPage = () => {
   };
   return (
     <Container>
-      <Grid container component="main" sx={{ height: "100vh" }}>
+      <Grid container component="main" sx={{ my: 4 }}>
         <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              "url(https://source.unsplash.com/random?wallpapers)",
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid item xs={false} sm={7} md={7} sx={{ overflow: "hidden" }}>
+          <Card
+            sx={{
+              height: "100%",
+            }}
+          >
+            <CardMedia
+              component="img"
+              image={reactPic}
+              alt="Contemplative Reptile"
+              sx={{
+                height: "100%",
+              }}
+            />{" "}
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={5} md={5}>
           <Box
             sx={{
-              my: 8,
-              mx: 4,
               display: "flex",
               flexDirection: "column",
               alignItems: "center",

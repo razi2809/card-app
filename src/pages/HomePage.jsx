@@ -28,7 +28,6 @@ const HomePage = () => {
   const [done, setDone] = useState(false);
   const [allCards, SetallCards] = useState("");
   const [initialDataFromServer, setInitialDataFromServer] = useState([]);
-  const memoCard = React.memo(TemplateCardComponent);
   const skeleton = [0, 1, 2, 3];
   useEffect(() => {
     if (userData) {
@@ -38,15 +37,11 @@ const HomePage = () => {
           if (response.data && response.data.length > 0) {
             SetCards(response.data);
             setInitialDataFromServer(response.data);
-            setDone(true);
-            //user has cards so show them
-          } else {
-            axios.get("/cards").then(function (response) {
-              //user has no cards so show some cards of all of them
-              SetallCards(response.data.slice(0, 4));
-              setDone(true);
-            });
           }
+          axios.get("/cards").then(function (response) {
+            SetallCards(response.data.slice(0, 4));
+            setDone(true);
+          });
         })
         .catch(function (error) {
           //this will catch the error from the server
@@ -106,7 +101,6 @@ const HomePage = () => {
       });
   }, []);
   if (userData) {
-    //
     return (
       <Box sx={{ width: 1 }}>
         <Typography variant="h1" textAlign="center">
@@ -115,27 +109,19 @@ const HomePage = () => {
         <Grid container spacing={3}>
           <Grid container spacing={3} sm={12} xs={12} md={6}>
             <Grid xs={12} md={12}>
-              {" "}
               <Typography variant="h2" textAlign="center">
-                my cards
+                my cards{" "}
               </Typography>
             </Grid>
-          </Grid>
-          <Grid container spacing={3} sm={12} xs={12} md={6}>
-            <Grid xs={12} md={12}>
-              <Typography variant="h2" textAlign="center">
-                all cards{" "}
-              </Typography>
-            </Grid>
-            {allCards &&
-              allCards.map((card) => (
+            {cards &&
+              cards.map((card) => (
                 <Fragment key={card._id}>
                   <Grid
                     container
                     xs={2}
                     sm={0}
                     md={1}
-                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
+                    sx={{ height: { md: "100%" } }}
                   ></Grid>
                   <Grid xs={8} sm={6} md={4}>
                     <TemplateCardComponent
@@ -152,13 +138,46 @@ const HomePage = () => {
                       }
                     />
                   </Grid>
-                  <Grid
-                    container
-                    xs={2}
-                    sm={0}
-                    md={1}
-                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
-                  ></Grid>
+                  <Grid container xs={2} sm={false} md={1}></Grid>{" "}
+                </Fragment>
+              ))}
+            {!done &&
+              skeleton.map((card) => (
+                <Fragment key={card}>
+                  <Grid container xs={2} sm={0} md={1}></Grid>
+                  <Grid xs={8} sm={6} md={4} key={card}>
+                    <SkeletonTamplateForCard cardIsInHome={true} />
+                  </Grid>
+                  <Grid container xs={2} sm={0} md={1}></Grid>
+                </Fragment>
+              ))}
+          </Grid>
+          <Grid container spacing={3} sm={12} xs={12} md={6}>
+            <Grid xs={12} md={12}>
+              <Typography variant="h2" textAlign="center">
+                all cards{" "}
+              </Typography>
+            </Grid>
+            {allCards &&
+              allCards.map((card) => (
+                <Fragment key={card._id}>
+                  <Grid container xs={2} sm={0} md={1}></Grid>
+                  <Grid xs={8} sm={6} md={4}>
+                    <TemplateCardComponent
+                      cardIsInHome={true}
+                      card={card}
+                      onEditCard={handleEditCard}
+                      onLikedCard={handleLikeCard}
+                      onDeleteCard={handeDeleteCard}
+                      likeFromData={card.likes.includes(userId) ? true : false}
+                      canDelete={
+                        card.user_id == userId || userData.isAdmin
+                          ? true
+                          : false
+                      }
+                    />
+                  </Grid>
+                  <Grid container xs={2} sm={0} md={1}></Grid>
                 </Fragment>
               ))}
             {!done &&
@@ -169,18 +188,12 @@ const HomePage = () => {
                     xs={2}
                     sm={0}
                     md={1}
-                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
-                  ></Grid>{" "}
+                    sx={{ height: "100%" }}
+                  ></Grid>
                   <Grid xs={8} sm={6} md={4} key={card}>
                     <SkeletonTamplateForCard cardIsInHome={true} />
                   </Grid>
-                  <Grid
-                    container
-                    xs={2}
-                    sm={0}
-                    md={1}
-                    sx={{ disply: { xs: "flex", md: "flex", sm: "none" } }}
-                  ></Grid>{" "}
+                  <Grid container xs={2} sm={0} md={1}></Grid>
                 </Fragment>
               ))}
           </Grid>
@@ -195,56 +208,4 @@ const HomePage = () => {
     return <Typography variant="h1">no cards match</Typography>;
   }
 };
-
 export default HomePage;
-
-/* {initialDataFromServer.length > 0 && cards.length > 0 && (
-  <Box sx={{ flexGrow: 1 }}>
-  <Grid container spacing={3}>
-      {cards.map((card) => (
-        <Grid xs={12} sm={6} md={3} key={card._id}>
-          <TemplateCardComponent
-            id={card._id}
-            title={card.title}
-            subTitle={card.subtitle}
-            phone={card.phone}
-            description={card.description}
-            url={card.image.url}
-            onEditCard={handleEditCard}
-            onLikedCard={handleLikeCard}
-            onDeleteCard={handeDeleteCard}
-            likeFromData={card.likes.includes(userId) ? true : false}
-            canDelete={
-              card.user_id == userId || userData.isAdmin ? true : false
-            }
-          />
-          </Grid>
-          ))}
-          </Grid>
-          </Box>
-          )}
-          {!initialDataFromServer.length && allCards && (
-  <Box sx={{ flexGrow: 1 }}>
-  <Grid container spacing={3}>
-  {allCards.map((card) => (
-    <Grid xs={12} sm={6} md={3} key={card._id}>
-          <TemplateCardComponent
-            id={card._id}
-            title={card.title}
-            subTitle={card.subtitle}
-            phone={card.phone}
-            description={card.description}
-            url={card.image.url}
-            onEditCard={handleEditCard}
-            onLikedCard={handleLikeCard}
-            onDeleteCard={handeDeleteCard}
-            likeFromData={card.likes.includes(userId) ? true : false}
-            canDelete={
-              card.user_id == userId || userData.isAdmin ? true : false
-            }
-            />
-        </Grid>
-      ))}
-    </Grid>
-    </Box>
-)}*/

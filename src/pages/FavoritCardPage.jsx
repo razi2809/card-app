@@ -28,11 +28,13 @@ const FavoriteCards = () => {
   const WhatPage = parseInt(searchParams.get("page")) || 1;
   const [page, setPage] = useState(WhatPage);
   const [numPages, setnumPages] = useState(1);
-  const TOTAL_PER_PAGE = 6;
+  const TOTAL_PER_PAGE = 8;
   const handlePageChange = (_, newPage) => {
     //when he clicks to move a page then navigate to a new one
     //the page state will upate automaticly
     setPage(newPage);
+    window.scrollTo({ top: 0, left: 0 });
+
     navigate(`/cards/favorite?page=${newPage}`);
   };
   useEffect(() => {

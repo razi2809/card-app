@@ -3,26 +3,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useState } from "react";
 import axios, { Axios } from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Copyright } from "@mui/icons-material";
-import {
-  normalizCratCard,
-  normalizCrateCard,
-} from "../NormaliezedDate/normalizCrateCard";
+import { normalizCrateCard } from "../NormaliezedDate/normalizCrateCard";
 import { validateCrateCard } from "../validation/crateCardValidate";
 import { Alert } from "@mui/material";
-const defaultTheme = createTheme();
-
+import ErrorMessage from "../tostifyHandeker/ErrorMessage";
+import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 const CrateCard = () => {
   const [errorsState, setErrorsState] = useState("");
   const [secondtrychance, setSeconrychance] = useState(false);
@@ -75,7 +68,6 @@ const CrateCard = () => {
       //if error from joi then set them and trigerr a alert for each input
       //if the joi dosent have value it empty so let the user hit submit
       const joiResponse = validateCrateCard(updatedInputs);
-      console.log(joiResponse);
       setErrorsState(joiResponse);
       setSeconrychance(true);
     }
@@ -86,15 +78,14 @@ const CrateCard = () => {
     //get the data and normalize it to the server
     event.preventDefault();
     const data = normalizCrateCard(inputsValue);
-
-    console.log("data", data);
-    const req = axios
+    axios
       .post("/cards", data)
       .then(function (response) {
-        console.log(response);
+        SuccessMessage("card created");
+        navigate("/home");
       })
       .catch(function (error) {
-        console.log(error);
+        ErrorMessage(error.response.data);
       });
   };
 

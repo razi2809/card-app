@@ -98,6 +98,7 @@ function ResponsiveAppBar({ darkEnable }) {
                   justifyContent: "space-around",
                   alignContent: "space-around",
                 }}
+                onClick={handleCloseNavMenu}
               >
                 <LinksComponent loggedin={loggedin} userInfo={userInfo} />
               </Box>
@@ -124,7 +125,9 @@ function ResponsiveAppBar({ darkEnable }) {
               </Typography>
             )}
             {!darkEnable && <NightlightIcon onClick={handleChangetheme} />}
-            {darkEnable && <LightModeIcon onClick={handleChangetheme} />}
+            {darkEnable && (
+              <LightModeIcon sx={{ mr: 1 }} onClick={handleChangetheme} />
+            )}
           </Box>
           <FilterComponent />
           <Box
