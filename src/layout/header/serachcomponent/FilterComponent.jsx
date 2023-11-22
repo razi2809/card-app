@@ -25,7 +25,6 @@ const FilterComponent = () => {
     if (
       pathname == "/cards" ||
       pathname == "/cards/favorite" ||
-      pathname == "/home" ||
       pathname == "/sandbox"
     ) {
       if (search) {

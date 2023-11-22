@@ -16,13 +16,14 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import NavLinkComponent from "../../components/layoutRelatedComponents/NavLinkComponent";
 import { authActions } from "../../REDUX/authSlice";
 import { Button, Drawer } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ErrorMessage from "../../tostifyHandeker/ErrorMessage";
 import FilterComponent from "./serachcomponent/FilterComponent";
 import WarningMessage from "../../tostifyHandeker/WarningMessage";
 import LinksComponent from "../../components/layoutRelatedComponents/LinksComponent";
-
+import { useTheme } from "@mui/material/styles";
 function ResponsiveAppBar({ darkEnable }) {
+  const theme = useTheme();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const auth = useSelector((bigPie) => bigPie.authReducer);
@@ -32,7 +33,6 @@ function ResponsiveAppBar({ darkEnable }) {
   const handleChangetheme = () => {
     dispatch(DarkActions.changeState(!darkEnable));
     localStorage.setItem("theme", !darkEnable);
-    localStorage.setItem(decodedToken, !darkEnable);
   };
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -173,11 +173,24 @@ function ResponsiveAppBar({ darkEnable }) {
               <Box sx={{ flexDirection: "column", display: "flex" }}>
                 {" "}
                 <Button onClick={handleCloseUserMenu}>
-                  <NavLinkComponent to={`/profile/${decodedToken}`}>
+                  <Link
+                    style={{
+                      textDecoration: "none",
+                      color: darkEnable ? "white" : "black",
+                    }}
+                    to={`/profile/${decodedToken}`}
+                  >
                     profile
-                  </NavLinkComponent>
+                  </Link>
                 </Button>
-                <Button onClick={handleLogOut}>logout</Button>
+                <Button
+                  sx={{
+                    color: darkEnable ? "white" : "black",
+                  }}
+                  onClick={handleLogOut}
+                >
+                  logout
+                </Button>
               </Box>
             </Menu>
           </Box>

@@ -5,7 +5,6 @@ import { useSelector } from "react-redux";
 import { CssBaseline, ThemeProvider, createTheme } from "@mui/material";
 import tmc from "twin-moon-color";
 import ResponsiveAppBar from "./header/HeaderExpiricne";
-import { purple } from "@mui/material/colors";
 
 const LayoutComponent = ({ children }) => {
   const checked = useSelector((bigPie) => bigPie.DarkReducer);
@@ -14,17 +13,17 @@ const LayoutComponent = ({ children }) => {
     "text.headerActive": "#26a69a",
   });
   const darkTheme = createTheme(themes.dark);
-  const lightTheme = createTheme({
+  /*  const lightTheme = createTheme({
     palette: {
       primary: {
-        main: "#e3f2fd",
+        main: "#90caf9",
       },
       secondary: {
-        main: "#f44336",
+        main: "#e57373",
       },
     },
-  });
-  // createTheme(themes.light);
+  }); */
+  const lightTheme = createTheme(themes.light);
   console.log("hey layout");
   return (
     <Fragment>

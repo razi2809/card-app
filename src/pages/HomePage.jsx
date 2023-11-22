@@ -20,7 +20,6 @@ const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((bigPie) => bigPie.authReducer);
-  const search = useSearchquery();
   const loggedin = user.loggedin;
   const userData = user.userInfo;
   const userId = user.userData;
@@ -40,6 +39,7 @@ const HomePage = () => {
           axios.get("/cards").then(function (response) {
             SetallCards(response.data.slice(0, 4));
             setInitialDataFromServer(response.data);
+            setDone(true);
           });
         })
         .catch(function (error) {
@@ -48,24 +48,6 @@ const HomePage = () => {
         });
     }
   }, [loggedin]);
-  useEffect(() => {
-    //check if initial data is populate if not return
-    //check the value of the hook in filter key if empty return
-    //if filter does contain something the filter the cards
-    if (!initialDataFromServer.length) return;
-    const filter = search.filter ? search.filter : "";
-    const filteredCards = initialDataFromServer.filter((card) =>
-      card.title.startsWith(filter)
-    );
-
-    if (filteredCards.length === 0) {
-      // Handle empty response here
-      WarningMessage("No cards match the filter");
-    }
-    // Update the cards state with the filtered cards
-    SetallCards(filteredCards);
-    setDone(true);
-  }, [search, initialDataFromServer]);
   const handleEditCard = useCallback((idToEdit) => {
     // Navigate to the specified path after the delay
     navigate(`/cards/${idToEdit}/edit`);
@@ -122,7 +104,9 @@ const HomePage = () => {
                     xs={2}
                     sm={0}
                     md={1}
-                    sx={{ height: { md: "100%" } }}
+                    sx={{
+                      height: !cards.length ? { md: "100%" } : { md: "auto" },
+                    }}
                   ></Grid>
                   <Grid xs={8} sm={6} md={4}>
                     <TemplateCardComponent
