@@ -36,11 +36,10 @@ const HomePage = () => {
         .then(function (response) {
           if (response.data && response.data.length > 0) {
             SetCards(response.data);
-            setInitialDataFromServer(response.data);
           }
           axios.get("/cards").then(function (response) {
             SetallCards(response.data.slice(0, 4));
-            setDone(true);
+            setInitialDataFromServer(response.data);
           });
         })
         .catch(function (error) {
@@ -58,12 +57,14 @@ const HomePage = () => {
     const filteredCards = initialDataFromServer.filter((card) =>
       card.title.startsWith(filter)
     );
+
     if (filteredCards.length === 0) {
       // Handle empty response here
       WarningMessage("No cards match the filter");
     }
     // Update the cards state with the filtered cards
-    SetCards(filteredCards);
+    SetallCards(filteredCards);
+    setDone(true);
   }, [search, initialDataFromServer]);
   const handleEditCard = useCallback((idToEdit) => {
     // Navigate to the specified path after the delay
@@ -141,7 +142,7 @@ const HomePage = () => {
                   <Grid container xs={2} sm={false} md={1}></Grid>{" "}
                 </Fragment>
               ))}
-            {!done &&
+            {!cards.length &&
               skeleton.map((card) => (
                 <Fragment key={card}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
@@ -158,7 +159,7 @@ const HomePage = () => {
                 all cards{" "}
               </Typography>
             </Grid>
-            {allCards &&
+            {done &&
               allCards.map((card) => (
                 <Fragment key={card._id}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
