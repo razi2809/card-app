@@ -130,7 +130,7 @@ const HomePage = () => {
                   <Grid container xs={2} sm={false} md={1}></Grid>{" "}
                 </Fragment>
               ))}
-            {!cards.length &&
+            {!done &&
               skeleton.map((card) => (
                 <Fragment key={card}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
