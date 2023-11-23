@@ -13,7 +13,10 @@ const LayoutComponent = ({ children }) => {
     "text.headerActive": "#26a69a",
   });
   const darkTheme = createTheme(themes.dark);
-  /*  const lightTheme = createTheme({
+
+  const lightTheme = createTheme(themes.light);
+
+  /*   const lightTheme = createTheme({
     palette: {
       primary: {
         main: "#90caf9",
@@ -23,7 +26,6 @@ const LayoutComponent = ({ children }) => {
       },
     },
   }); */
-  const lightTheme = createTheme(themes.light);
   console.log("hey layout");
   return (
     <Fragment>

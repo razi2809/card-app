@@ -1,21 +1,18 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Unstable_Grid2";
 import axios from "axios";
-import React, { Fragment, useCallback, useEffect, useRef } from "react";
+import React, { Fragment, useCallback, useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import TemplateCardComponent from "../components/cradsComponents/TemplateCardComponent";
 import { Typography } from "@mui/material";
-import { Link, Navigate, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
-import useSearchquery from "../hooks/useSearchParams";
-import WarningMessage from "../tostifyHandeker/WarningMessage";
 import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
 import { likeAction } from "../REDUX/likeSlice";
 import AboutMe from "../components/layoutRelatedComponents/AboutMe";
-
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
