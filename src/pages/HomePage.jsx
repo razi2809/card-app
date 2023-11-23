@@ -28,18 +28,24 @@ const HomePage = () => {
   useEffect(() => {
     if (userData) {
       axios
+        .get("/cards")
+        .then(function (response) {
+          SetallCards(response.data.slice(0, 4));
+          setInitialDataFromServer(response.data);
+          setDone(true);
+        })
+        .catch(function (error) {
+          //this will catch the error from the server
+          ErrorMessage(error.response);
+        });
+
+      axios
         .get("/cards/my-cards")
         .then(function (response) {
           if (response.data && response.data.length > 0) {
             SetCards(response.data);
           }
-          axios.get("/cards").then(function (response) {
-            SetallCards(response.data.slice(0, 4));
-            setInitialDataFromServer(response.data);
-          });
-          setDone(true);
         })
-
         .catch(function (error) {
           //this will catch the error from the server
           ErrorMessage(error.response);
