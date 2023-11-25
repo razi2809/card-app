@@ -49,7 +49,6 @@ const App = () => {
 
   return (
     <div className="App">
-      hello
       <LayoutComponent>
         <ToastContainer />
         {done ? <Router /> : <CircularProgress />}
