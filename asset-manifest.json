@@ -1,8 +1,9 @@
 {
   "files": {
-    "main.css": "/card-app/static/css/main.89487103.css",
-    "main.js": "/card-app/static/js/main.f8207850.js",
+    "main.css": "/card-app/static/css/main.5bd3e1f7.css",
+    "main.js": "/card-app/static/js/main.17236261.js",
     "static/js/787.75e1f7fc.chunk.js": "/card-app/static/js/787.75e1f7fc.chunk.js",
+    "static/media/myAvatar.jpg": "/card-app/static/media/myAvatar.7e845cdb4326af3080f8.jpg",
     "static/media/react-code.jpeg": "/card-app/static/media/react-code.c5d5166f943e8a4a9d92.jpeg",
     "static/media/roboto-latin-500-normal.woff2": "/card-app/static/media/roboto-latin-500-normal.f25d774ecfe0996f8eb5.woff2",
     "static/media/roboto-latin-700-normal.woff2": "/card-app/static/media/roboto-latin-700-normal.227c93190fe7f82de3f8.woff2",
@@ -61,12 +62,12 @@
     "static/media/roboto-greek-ext-400-normal.woff": "/card-app/static/media/roboto-greek-ext-400-normal.f708607d2a7290fb8bfa.woff",
     "static/media/roboto-greek-ext-700-normal.woff": "/card-app/static/media/roboto-greek-ext-700-normal.249853776d22a271b2b5.woff",
     "index.html": "/card-app/index.html",
-    "main.89487103.css.map": "/card-app/static/css/main.89487103.css.map",
-    "main.f8207850.js.map": "/card-app/static/js/main.f8207850.js.map",
+    "main.5bd3e1f7.css.map": "/card-app/static/css/main.5bd3e1f7.css.map",
+    "main.17236261.js.map": "/card-app/static/js/main.17236261.js.map",
     "787.75e1f7fc.chunk.js.map": "/card-app/static/js/787.75e1f7fc.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.89487103.css",
-    "static/js/main.f8207850.js"
+    "static/css/main.5bd3e1f7.css",
+    "static/js/main.17236261.js"
   ]
 }
