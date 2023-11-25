@@ -66,6 +66,7 @@ const Editcard = () => {
           SuccessMessage(`you can now edit!`);
         } else {
           WarningMessage("you are NOT the creator");
+          setdisableEdit(true);
         }
         setDone(true);
       })
@@ -163,9 +164,7 @@ const Editcard = () => {
           </Avatar>
           <Typography component="h1" variant="h5">
             update card{" "}
-            {disableEdit && (
-              <Button onClick={handleWantToEdit}>edit card</Button>
-            )}
+            {canEdit && <Button onClick={handleWantToEdit}>edit card</Button>}
           </Typography>
         </Box>
 

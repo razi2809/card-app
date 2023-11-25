@@ -53,16 +53,25 @@ const SandBoxPage = () => {
     navigate(`/profile/${id}`);
   }, []);
 
-  const handeDeleteuser = useCallback((idToDelete) => {
+  const handeDeleteuser = (idToDelete) => {
     axios
       .delete(`/users/${idToDelete}`)
       .then(function (response) {
         SuccessMessage("delete complete");
+        displayData.map((user, index) => {
+          console.log(user);
+          if (user._id == idToDelete) {
+            //update the cards to delete it
+            const copied = [...displayData];
+            copied.splice(index, 1);
+            setDisplayData(copied);
+          }
+        });
       })
       .catch(function (error) {
         ErrorMessage(error.response.data);
       });
-  }, []);
+  };
   useEffect(() => {
     axios
       .get("/users")
