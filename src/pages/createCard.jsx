@@ -12,11 +12,11 @@ import { useState } from "react";
 import axios, { Axios } from "axios";
 import { Navigate, useNavigate } from "react-router-dom";
 import { normalizCrateCard } from "../NormaliezedDate/normalizCrateCard";
-import { validateCrateCard } from "../validation/crateCardValidate";
+import { validateCreateCard } from "../validation/createCardValidate";
 import { Alert } from "@mui/material";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
-const CrateCard = () => {
+const CreateCard = () => {
   const [errorsState, setErrorsState] = useState("");
   const [secondtrychance, setSeconrychance] = useState(false);
 
@@ -59,7 +59,7 @@ const CrateCard = () => {
     if (secondtrychance) {
       //when its his second try and we gave him the warning then
       //alert him if its still an error or if its not
-      const joiResponse = validateCrateCard(updatedInputs);
+      const joiResponse = validateCreateCard(updatedInputs);
       setErrorsState(joiResponse);
     }
     if (e.target.id === "housenumber") {
@@ -67,7 +67,7 @@ const CrateCard = () => {
       //sende the inpunts to the joi validate
       //if error from joi then set them and trigerr a alert for each input
       //if the joi dosent have value it empty so let the user hit submit
-      const joiResponse = validateCrateCard(updatedInputs);
+      const joiResponse = validateCreateCard(updatedInputs);
       setErrorsState(joiResponse);
       setSeconrychance(true);
     }
@@ -170,4 +170,4 @@ const CrateCard = () => {
   );
 };
 
-export default CrateCard;
+export default CreateCard;

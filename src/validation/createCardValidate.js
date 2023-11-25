@@ -1,7 +1,7 @@
 import Joi from "joi";
 import validation from "./validation";
 
-const crateCardSchema = Joi.object({
+const createCardSchema = Joi.object({
   email: Joi.string()
     .email({ tlds: { allow: false } })
     .required(),
@@ -16,7 +16,7 @@ const crateCardSchema = Joi.object({
     .max(11)
     .pattern(/^\+?(972|0)(\-)?0?(([23489]{1}\d{7})|[5]{1}\d{8})$/)
     .required(),
-  state: "",
+  state: Joi.string().min(14).allow(""),
   country: Joi.string().required(),
   city: Joi.string().required(),
   street: Joi.string().required(),
@@ -24,7 +24,7 @@ const crateCardSchema = Joi.object({
   zip: Joi.number().allow("").optional(),
 });
 
-const validateCrateCard = (inputToCheck) =>
-  validation(crateCardSchema, inputToCheck);
+const validateCreateCard = (inputToCheck) =>
+  validation(createCardSchema, inputToCheck);
 
-export { validateCrateCard };
+export { validateCreateCard };

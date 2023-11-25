@@ -8,8 +8,10 @@ const Directing = () => {
   //direct the user on open to diffrent route depends on whether he loggin alredy
   useEffect(() => {
     if (loggedin) {
+      window.scrollTo({ top: 0, left: 0 });
       navigate(ROUTES.HOME);
     } else {
+      window.scrollTo({ top: 0, left: 0 });
       navigate(ROUTES.CARDS);
     }
   }, []);

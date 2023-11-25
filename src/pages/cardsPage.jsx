@@ -14,7 +14,6 @@ import useSearchquery from "../hooks/useSearchParams";
 import WarningMessage from "../tostifyHandeker/WarningMessage";
 import Pagination from "@mui/material/Pagination";
 import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
-import { likeAction } from "../REDUX/likeSlice";
 export default function Cards() {
   const search = useSearchquery();
   const dispatch = useDispatch();
@@ -101,8 +100,6 @@ export default function Cards() {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
-        dispatch(likeAction.changeState(true));
-
         if (!like) {
           SuccessMessage("liked");
         } else {
@@ -114,17 +111,24 @@ export default function Cards() {
       });
   }, []);
 
-  const handeDeleteCard = useCallback((idToDelete) => {
+  const handeDeleteCard = (idToDelete) => {
     axios
       .delete(`/cards/${idToDelete}`)
       .then(function (response) {
         SuccessMessage("delete complete");
-        console.log(response.data);
+        displayData.map((card, index) => {
+          if (card._id == idToDelete) {
+            //update the cards to delete it
+            const copied = [...displayData];
+            copied.splice(index, 1);
+            setDisplayData(copied);
+          }
+        });
       })
       .catch(function (error) {
         WarningMessage(error.response.data);
       });
-  }, []);
+  };
   if (
     initialDataFromServer.length > 0 &&
     dataFromServer.length > 0 &&

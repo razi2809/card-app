@@ -10,7 +10,6 @@ import ErrorMessage from "./tostifyHandeker/ErrorMessage";
 import SuccessMessage from "./tostifyHandeker/SuccessMessage";
 
 const App = () => {
-  console.log("app render");
   const login = useAutoLogin();
   const [userData, setUserData] = useState(null);
   const tokenoOBj = getToken();

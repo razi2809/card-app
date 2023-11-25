@@ -9,6 +9,8 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useState } from "react";
+import { Alert } from "@mui/material";
+
 import axios, { Axios } from "axios";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -17,10 +19,16 @@ import WarningMessage from "../tostifyHandeker/WarningMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import ROUTES from "../routes/ROUTES";
 import { normalizUpdatCard } from "../NormaliezedDate/normalizUpdatCard";
+import { validateCreateCard } from "../validation/createCardValidate";
 const Editcard = () => {
   const user_id = useSelector((bigpie) => bigpie.authReducer.userData);
   const user_info = useSelector((bigpie) => bigpie.authReducer.userInfo);
+  const [errorsState, setErrorsState] = useState("");
+  const [secondtrychance, setSeconrychance] = useState(false);
   const [canEdit, setcanEdit] = useState(false);
+  const [disableEdit, setdisableEdit] = useState(false);
+  const [disableSubmit, setdisableSubmit] = useState(true);
+  const [done, setDone] = useState(false);
   const [inputsValue, setInputsValue] = useState({
     title: "",
     subtitle: "",
@@ -54,10 +62,12 @@ const Editcard = () => {
         //that indicate that he isnt the cretor cause if he was admin he shoulnt see any warning at all
         if (response.data.user_id == user_id || user_info.isAdmin) {
           setcanEdit(true);
+          setdisableEdit(true);
           SuccessMessage(`you can now edit!`);
         } else {
           WarningMessage("you are NOT the creator");
         }
+        setDone(true);
       })
       .catch((err) => {
         //server error cant get the cards details
@@ -70,6 +80,45 @@ const Editcard = () => {
       ...currentState,
       [e.target.id]: e.target.value,
     }));
+    const updatedInputs = {
+      ...inputsValue,
+      [e.target.id]: e.target.value,
+    };
+    const inpotToJoi = {
+      title: updatedInputs.title,
+      subtitle: updatedInputs.subtitle,
+      description: updatedInputs.description,
+      phone: updatedInputs.phone,
+      url: updatedInputs.url,
+      country: updatedInputs.country,
+      email: oldValues.email,
+      city: oldValues.city,
+      street: oldValues.street,
+      housenumber: oldValues.houseNumber,
+    };
+    if (secondtrychance) {
+      //when its his second try and we gave him the warning then
+      //alert him if its still an error or if its not
+      const joiResponse = validateCreateCard(inpotToJoi);
+      if (joiResponse == null) {
+        setdisableSubmit(false);
+      } else {
+        setdisableSubmit(true);
+      }
+      setErrorsState(joiResponse);
+    }
+    if (e.target.id === "country") {
+      //check if its the lest input and want to regisert
+      //sende the inpunts to the joi validate
+      //if error from joi then set them and trigerr a alert for each input
+      //if the joi dosent have value it empty so let the user hit submit
+      const joiResponse = validateCreateCard(inpotToJoi);
+      if (joiResponse == null) {
+        setdisableSubmit(false);
+      }
+      setErrorsState(joiResponse);
+      setSeconrychance(true);
+    }
   };
   const navigate = useNavigate();
   const handleSubmit = (event) => {
@@ -87,7 +136,9 @@ const Editcard = () => {
         ErrorMessage(error.response.data);
       });
   };
-
+  const handleWantToEdit = () => {
+    setdisableEdit(false);
+  };
   return (
     <Container component="main" maxWidth="md">
       <CssBaseline />
@@ -111,7 +162,10 @@ const Editcard = () => {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            update card
+            update card{" "}
+            {disableEdit && (
+              <Button onClick={handleWantToEdit}>edit card</Button>
+            )}
           </Typography>
         </Box>
 
@@ -128,11 +182,15 @@ const Editcard = () => {
                   value={inputsValue[key]}
                   onChange={handleInputsChange}
                 />
+                {errorsState && errorsState[key] && (
+                  <Alert severity="warning">{errorsState[key]}</Alert>
+                )}
               </Grid>
             ))}
 
-            {canEdit && (
+            {!disableEdit && done && (
               <Button
+                disabled={disableSubmit}
                 type="submit"
                 fullWidth
                 variant="contained"

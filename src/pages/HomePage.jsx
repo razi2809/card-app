@@ -11,8 +11,8 @@ import { useNavigate } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
 import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
-import { likeAction } from "../REDUX/likeSlice";
-import AboutMe from "../components/layoutRelatedComponents/AboutMe";
+
+import About from "./About";
 const HomePage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,24 +56,39 @@ const HomePage = () => {
     // Navigate to the specified path after the delay
     navigate(`/cards/${idToEdit}/edit`);
   }, []);
-  const handeDeleteCard = useCallback((idToDelte) => {
-    //send delete request to the server
+  const handeDeleteCard = (idToDelte) => {
     axios
       .delete(`/cards/${idToDelte}`)
       .then(function (response) {
-        //if the delete was successful then remove the card from the state
-        SuccessMessage("deleted successfully");
+        SuccessMessage("delete success");
+        console.log(allCards, idToDelte);
+        allCards.map((card, index) => {
+          if (card._id == idToDelte) {
+            //update the cards to delete it
+            const copied = [...allCards];
+            copied.splice(index, 1);
+            SetallCards(copied);
+          }
+          if (cards.length > 0) {
+            cards.map((card, index) => {
+              if (card._id == idToDelte) {
+                //update the cards to delete it
+                const copied = [...cards];
+                copied.splice(index, 1);
+                SetCards(copied);
+              }
+            });
+          }
+        });
       })
       .catch(function (error) {
-        //if the delete was unsuccessful then show the error
         ErrorMessage(error.response.data);
       });
-  }, []);
+  };
   const handleLikeCard = useCallback((idToLike, like) => {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
-        dispatch(likeAction.changeState(true));
         if (!like) {
           //if the like wasnt on so like it and show the success message
           SuccessMessage("liked");
@@ -109,7 +124,7 @@ const HomePage = () => {
                     sm={0}
                     md={1}
                     sx={{
-                      height: !cards.length ? { md: "100%" } : { md: "auto" },
+                      height: cards.length ? { md: "100%" } : { md: "auto" },
                     }}
                   ></Grid>
                   <Grid xs={8} sm={6} md={4}>
@@ -188,7 +203,7 @@ const HomePage = () => {
               ))}
           </Grid>
           <Grid xs={12} md={12}>
-            <AboutMe />
+            <About />
           </Grid>
         </Grid>
       </Box>

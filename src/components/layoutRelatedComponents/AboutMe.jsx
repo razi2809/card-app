@@ -1,13 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  Grid,
-  Box,
-  Avatar,
-  Typography,
-  CardMedia,
-  Card,
-} from "@mui/material";
+import { Grid, Box, Avatar, Typography, CardMedia, Card } from "@mui/material";
 import reactPic from "../../assets/react-code.jpeg";
+import myAvatar from "../../assets/myAvatar.jpg";
 const AboutMe = () => {
   const [disableView, setDisableView] = useState(true);
   const AvatarRef = useRef();
@@ -15,7 +9,7 @@ const AboutMe = () => {
   const picRef = useRef();
   const options = {
     rootMargin: "0px",
-    threshold: 0.3,
+    threshold: 0.2,
   };
   const observe = (enries) => {
     enries.forEach((entry) => {
@@ -48,7 +42,7 @@ const AboutMe = () => {
     observer.observe(picRef.current);
   }, []);
   return (
-    <Grid container sx={{ mt: 2 }}>
+    <Grid container sx={{ mt: 6 }}>
       <Grid
         container
         item
@@ -71,7 +65,7 @@ const AboutMe = () => {
           className={"displayNone"}
           ref={AvatarRef}
         >
-          <Avatar sx={{ width: 70, height: 70, mb: 2 }} />
+          <Avatar sx={{ width: 70, height: 70, mb: 2 }} src={myAvatar} />
         </Box>
 
         <Box

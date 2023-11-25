@@ -4,7 +4,7 @@ import ROUTES from "./ROUTES";
 import LoginPage from "../pages/login/LoginPage";
 import Directing from "../pages/Directing";
 import Cards from "../pages/cardsPage";
-import CrateCard from "../pages/crateCard";
+import CreateCard from "../pages/createCard";
 import Editcard from "../pages/Editcard";
 import ProfileEdit from "../pages/profileEdit";
 import RegisterPage from "../pages/register/RegisterPage";
@@ -17,8 +17,8 @@ import FavoriteCards from "../pages/FavoritCardPage";
 import SandBoxPage from "../pages/sandBoxPage";
 import AuthAdminGuard from "../Guard/AuthAdminGuard";
 import AuthBusinessGuard from "../Guard/AuthBusinessGuard";
-import AboutMe from "../components/layoutRelatedComponents/AboutMe";
-import AboutThePage from "../components/layoutRelatedComponents/AboutThePage";
+
+import About from "../pages/About";
 const Router = () => {
   return (
     <Routes>
@@ -50,7 +50,7 @@ const Router = () => {
           </AuthPreventNoAlert>
         }
       />
-      <Route path={ROUTES.ABOUT} element={<AboutThePage />} />
+      <Route path={ROUTES.ABOUT} element={<About />} />
       <Route
         path={ROUTES.REGISTER}
         element={
@@ -62,11 +62,11 @@ const Router = () => {
       <Route path={ROUTES.CARDS}>
         <Route index element={<Cards />} />
         <Route
-          path="crateCard"
+          path="createCard"
           element={
             <AuthGuard>
               <AuthBusinessGuard>
-                <CrateCard />
+                <CreateCard />
               </AuthBusinessGuard>
             </AuthGuard>
           }

@@ -13,13 +13,11 @@ import WarningMessage from "../tostifyHandeker/WarningMessage";
 import useSearchquery from "../hooks/useSearchParams";
 import ROUTES from "../routes/ROUTES";
 import SkeletonTamplateForCard from "../components/cradsComponents/SkeletonTamplateForCard";
-import { likeAction } from "../REDUX/likeSlice";
 const FavoriteCards = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const [searchParams] = useSearchParams();
-  const userId = useSelector((bigPie) => bigPie.authReducer.userData);
+  const userData = useSelector((bigPie) => bigPie.authReducer);
+  const userId = userData.userData;
   const [cards, SetCards] = useState("");
   const [done, setDone] = useState(false);
   const search = useSearchquery();
@@ -57,10 +55,7 @@ const FavoriteCards = () => {
           card.likes.includes(userId)
         );
         SetCards(
-          response.data.slice(
-            (page - 1) * TOTAL_PER_PAGE,
-            page * TOTAL_PER_PAGE
-          )
+          LikedCards.slice((page - 1) * TOTAL_PER_PAGE, page * TOTAL_PER_PAGE)
         );
         if (Math.ceil(LikedCards.length / TOTAL_PER_PAGE) > 1) {
           setnumPages(Math.ceil(LikedCards.length / TOTAL_PER_PAGE));
@@ -108,27 +103,39 @@ const FavoriteCards = () => {
     // Navigate to the specified path to edit the card
     navigate(`/cards/${idToEdit}/edit`);
   }, []);
-  const handeDeleteCard = useCallback((idToDelte) => {
+  const handeDeleteCard = (idToDelte) => {
     axios
       .delete(`/cards/${idToDelte}`)
       .then(function (response) {
         SuccessMessage("delete success");
+        cards.map((card, index) => {
+          if (card._id == idToDelte) {
+            //update the cards to delete it
+            const copied = [...cards];
+            copied.splice(index, 1);
+            SetCards(copied);
+            if (copied.length == 0) {
+              //if the new cards became empty mange that
+              WarningMessage("you  have no favorite cards...");
+              navigate(ROUTES.HOME);
+            }
+          }
+        });
       })
       .catch(function (error) {
         ErrorMessage(error.response.data);
       });
-  }, []);
+  };
   const handleLikeCard = (idToLike, like) => {
     axios
       .patch(`/cards/${idToLike}`)
       .then(function (response) {
-        dispatch(likeAction.changeState(true));
-
         //it does unlike the card so give him maasege
         SuccessMessage("unliked");
         cards.map((card, index) => {
           if (card._id == idToLike) {
             //update the cards to delete it
+
             const copied = [...cards];
             copied.splice(index, 1);
             SetCards(copied);
@@ -159,8 +166,15 @@ const FavoriteCards = () => {
                       onEditCard={handleEditCard}
                       onLikedCard={handleLikeCard}
                       onDeleteCard={handeDeleteCard}
+                      canDelete={
+                        userId
+                          ? card.user_id == userId._id ||
+                            userData.userInfo.isAdmin
+                            ? true
+                            : false
+                          : false
+                      }
                       likeFromData={true}
-                      canDelete={card.user_id == userId ? true : false}
                     />
                   </Grid>
                 ))}

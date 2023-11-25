@@ -16,17 +16,6 @@ const LayoutComponent = ({ children }) => {
 
   const lightTheme = createTheme(themes.light);
 
-  /*   const lightTheme = createTheme({
-    palette: {
-      primary: {
-        main: "#90caf9",
-      },
-      secondary: {
-        main: "#e57373",
-      },
-    },
-  }); */
-  console.log("hey layout");
   return (
     <Fragment>
       <ThemeProvider theme={checked ? darkTheme : lightTheme}>
