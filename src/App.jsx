@@ -4,10 +4,10 @@ import Router from "./routes/Router";
 import { useEffect } from "react";
 import useAutoLogin from "./hooks/useAutoLogin";
 import { useState } from "react";
-import { CircularProgress } from "@mui/material";
 import { getToken } from "./service/tokenservice";
 import ErrorMessage from "./tostifyHandeker/ErrorMessage";
 import SuccessMessage from "./tostifyHandeker/SuccessMessage";
+import LoadingComponent from "./components/layoutRelatedComponents/LoadingComponent";
 
 const App = () => {
   const login = useAutoLogin();
@@ -51,7 +51,7 @@ const App = () => {
     <div className="App">
       <LayoutComponent>
         <ToastContainer />
-        {done ? <Router /> : <CircularProgress />}
+        {done ? <Router /> : <LoadingComponent />}
       </LayoutComponent>
     </div>
   );
