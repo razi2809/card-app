@@ -133,7 +133,7 @@ const HomePage = () => {
                       height: cards.length ? { md: "100%" } : { md: "auto" },
                     }}
                   ></Grid>
-                  <Grid xs={8} sm={6} md={4}>
+                  <Grid xs={8} sm={6} md={4} sx={{ mt: 3 }}>
                     <TemplateCardComponent
                       cardIsInHome={true}
                       card={card}
@@ -155,7 +155,7 @@ const HomePage = () => {
               skeleton.map((card) => (
                 <Fragment key={card}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
-                  <Grid xs={8} sm={6} md={4} key={card}>
+                  <Grid xs={8} sm={6} md={4} key={card} sx={{ mt: 3 }}>
                     <SkeletonTamplateForCard cardIsInHome={true} />
                   </Grid>
                   <Grid container xs={2} sm={0} md={1}></Grid>
@@ -173,7 +173,7 @@ const HomePage = () => {
               allCards.map((card) => (
                 <Fragment key={card._id}>
                   <Grid container xs={2} sm={0} md={1}></Grid>
-                  <Grid xs={8} sm={6} md={4}>
+                  <Grid xs={8} sm={6} md={4} sx={{ mt: 3 }}>
                     <TemplateCardComponent
                       cardIsInHome={true}
                       card={card}
@@ -201,7 +201,7 @@ const HomePage = () => {
                     md={1}
                     sx={{ height: "100%" }}
                   ></Grid>
-                  <Grid xs={8} sm={6} md={4} key={card}>
+                  <Grid xs={8} sm={6} md={4} key={card} sx={{ mt: 3 }}>
                     <SkeletonTamplateForCard cardIsInHome={true} />
                   </Grid>
                   <Grid container xs={2} sm={0} md={1}></Grid>
