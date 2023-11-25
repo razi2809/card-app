@@ -22,7 +22,6 @@ const LayoutComponent = ({ children }) => {
         <CssBaseline />
         <ResponsiveAppBar darkEnable={checked} position="sticky" />
         <MainComponent>{children}</MainComponent>
-        {/* <MainComponent><Homepage /></MainComponent> */}
         <FooterComponent />
       </ThemeProvider>
     </Fragment>

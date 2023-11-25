@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import "react-toastify/dist/ReactToastify.css";
 import TemplateCardComponent from "../components/cradsComponents/TemplateCardComponent";
-import { Typography } from "@mui/material";
+import { Typography, Container } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
@@ -104,13 +104,19 @@ const HomePage = () => {
   }, []);
   if (userData) {
     return (
-      <Box sx={{ width: 1 }}>
+      <Fragment>
         <Typography variant="h1" textAlign="center">
           welcome {userData.name.first}
         </Typography>
         <Grid container spacing={3}>
-          <Grid container spacing={3} sm={12} xs={12} md={6}>
-            <Grid xs={12} md={12}>
+          <Grid
+            container
+            sm={12}
+            xs={12}
+            md={6}
+            columnSpacing={{ xs: 0, sm: 3, md: 3 }}
+          >
+            <Grid container xs={12} md={12} sx={{ justifyContent: "center" }}>
               <Typography variant="h2" textAlign="center">
                 my cards{" "}
               </Typography>
@@ -156,7 +162,13 @@ const HomePage = () => {
                 </Fragment>
               ))}
           </Grid>
-          <Grid container spacing={3} sm={12} xs={12} md={6}>
+          <Grid
+            container
+            sm={12}
+            xs={12}
+            md={6}
+            columnSpacing={{ xs: 0, sm: 3, md: 3 }}
+          >
             <Grid xs={12} md={12}>
               <Typography variant="h2" textAlign="center">
                 all cards{" "}
@@ -202,11 +214,11 @@ const HomePage = () => {
                 </Fragment>
               ))}
           </Grid>
-          <Grid xs={12} md={12}>
+          <Grid xs={12} md={12} sm={12}>
             <About />
           </Grid>
         </Grid>
-      </Box>
+      </Fragment>
     );
   } else if (initialDataFromServer.length > 0 && cards.length == 0) {
     //no one match after the search

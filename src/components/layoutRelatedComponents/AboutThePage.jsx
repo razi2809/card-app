@@ -171,7 +171,18 @@ const AboutThePage = () => {
           </Box>
         </Grid>
       </Grid>
-      {popUpView && <PopUp choice={handleChoice} />}
+      {popUpView && (
+        <Grid
+          container
+          item
+          xs={12}
+          md={12}
+          sm={12}
+          sx={{ overflowX: "hidden" }}
+        >
+          <PopUp choice={handleChoice} />
+        </Grid>
+      )}
       {choice && (
         <Grid
           container

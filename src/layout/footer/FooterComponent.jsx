@@ -24,6 +24,7 @@ const FooterComponent = () => {
         right: 0,
         height: "auto",
         mt: 4,
+        width: "auto",
       }}
     >
       <Box>

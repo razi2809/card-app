@@ -22,7 +22,6 @@ const InteractWithPage = ({ choice }) => {
       );
     }
   }, []);
-  console.log("choice", choice);
   return (
     <Grid
       ref={ref}
