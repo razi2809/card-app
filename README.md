@@ -1,70 +1,72 @@
-# Getting Started with Create React App
+# Project Title
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Overview
 
-## Available Scripts
+this is my react project assignment from hack-u learning full stac fundamentals
+i have written maintainable and clean code as far as i can do and make notes about the functionality
 
-In the project directory, you can run:
+## Table of Contents
 
-### `npm start`
+- [Development Stack](#development-stack)
+- [Hosting and Infrastructure](#hosting-and-infrastructure)
+- [Database Technology](#database-technology)
+- [Security Measures](#security-measures)
+- [Responsive Design](#responsive-design)
+- [User Interactivity](#user-interactivity)
+- [Version Control](#version-control)
+- [Monitoring and Analytics](#monitoring-and-analytics)
+- [Updates and Maintenance](#updates-and-maintenance)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Development Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The project is built using cutting-edge technologies:
 
-### `npm test`
+- Front-end: React, Redux, Material UI
+- Back-end: hackr-u server
+- Database: provided by hacker-u at the moment
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Hosting and Infrastructure
 
-### `npm run build`
+The web page is currently hosted on GitHub Pages, making it easily accessible for project demonstration.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Database Technology
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+The page interacts with a database to display cards. at the moment the database is from hacker-u
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Security Measures
 
-### `npm run eject`
+- Authentication and authorization mechanisms are implemented.
+- Different user roles (user, business, admin) dictate access levels and editing privileges.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Responsive Design
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Material UI is employed to ensure a fully responsive design, offering a consistent experience across various devices.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## User Interactivity
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Upon login, users can:
 
-## Learn More
+- Interact with cards
+- Like cards
+- Edit their own cards
+- Receive toast notifications for every interaction
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Version Control
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Git is used for version control, and the source code is hosted on GitHub for collaborative development.
 
-### Code Splitting
+## Getting Started
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Provide instructions on how to set up and run the project locally. Include any dependencies and configuration steps.
 
-### Analyzing the Bundle Size
+## Contributing
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+Include guidelines for those who wish to contribute to the project. This may cover issues, pull requests, coding standards, etc.
 
-### Making a Progressive Web App
+## License
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+Specify the project's license.
 
-### Advanced Configuration
+## Acknowledgments
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+library that this project includes redux and framer-motiov, toast notifications, material-ui, etc.
