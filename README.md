@@ -14,8 +14,6 @@ i have written maintainable and clean code as far as i can do and make notes abo
 - [Responsive Design](#responsive-design)
 - [User Interactivity](#user-interactivity)
 - [Version Control](#version-control)
-- [Monitoring and Analytics](#monitoring-and-analytics)
-- [Updates and Maintenance](#updates-and-maintenance)
 
 ## Development Stack
 
@@ -62,10 +60,6 @@ Provide instructions on how to set up and run the project locally. Include any d
 ## Contributing
 
 Include guidelines for those who wish to contribute to the project. This may cover issues, pull requests, coding standards, etc.
-
-## License
-
-Specify the project's license.
 
 ## Acknowledgments
 
