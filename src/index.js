@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import store from "./REDUX/bigPie";
 import { getToken } from "./service/tokenservice";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-axios.defaults.baseURL = "https://164.90.179.59";
+axios.defaults.baseURL = "http://164.90.179.59";
 axios.interceptors.request.use((config) => {
   const tokenoOBj = getToken();
   if (tokenoOBj) {
