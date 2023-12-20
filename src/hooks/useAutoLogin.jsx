@@ -13,16 +13,16 @@ const useAutoLogin = () => {
       const dataFromToken = jwtDecode(tokenoOBj.token);
       if (!skipTokenTest) {
         try {
-          const response = await axios.get(`/users/${dataFromToken._id}`);
+          const response = await axios.get(`/users/${dataFromToken.userId}`);
           dispatch(
             authActions.login({
               dataFromToken: dataFromToken,
-              userInfo: response.data,
+              userInfo: response.data.user,
             })
           );
           // when log in successfully run this block
           // return the data of the user
-          return { name: response.data.name.first, authorized: true };
+          return { name: response.data.user.name.first, authorized: true };
         } catch (err) {
           // when log in failed run this block
           //ade send the resulte

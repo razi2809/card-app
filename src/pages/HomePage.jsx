@@ -30,8 +30,8 @@ const HomePage = () => {
       axios
         .get("/cards")
         .then(function (response) {
-          SetallCards(response.data.slice(0, 4));
-          setInitialDataFromServer(response.data);
+          SetallCards(response.data.cards.slice(0, 4));
+          setInitialDataFromServer(response.data.cards);
           setDone(true);
         })
         .catch(function (error) {
@@ -48,7 +48,7 @@ const HomePage = () => {
         })
         .catch(function (error) {
           //this will catch the error from the server
-          ErrorMessage(error.response);
+          ErrorMessage(error.response.data.message);
         });
     }
   }, [loggedin]);
@@ -61,7 +61,6 @@ const HomePage = () => {
       .delete(`/cards/${idToDelte}`)
       .then(function (response) {
         SuccessMessage("delete success");
-        console.log(allCards, idToDelte);
         allCards.map((card, index) => {
           if (card._id == idToDelte) {
             //update the cards to delete it
@@ -127,13 +126,13 @@ const HomePage = () => {
                   <Grid
                     container
                     xs={2}
-                    sm={0}
+                    sm={1}
                     md={1}
                     sx={{
                       height: cards.length ? { md: "100%" } : { md: "auto" },
                     }}
                   ></Grid>
-                  <Grid xs={8} sm={6} md={4} sx={{ mt: 3 }}>
+                  <Grid xs={8} sm={5} md={4} sx={{ mt: 3 }}>
                     <TemplateCardComponent
                       cardIsInHome={true}
                       card={card}
@@ -148,14 +147,14 @@ const HomePage = () => {
                       }
                     />
                   </Grid>
-                  <Grid container xs={2} sm={false} md={1}></Grid>{" "}
+                  <Grid container xs={2} sm={0} md={1}></Grid>{" "}
                 </Fragment>
               ))}
             {!done &&
               skeleton.map((card) => (
                 <Fragment key={card}>
-                  <Grid container xs={2} sm={0} md={1}></Grid>
-                  <Grid xs={8} sm={6} md={4} key={card} sx={{ mt: 3 }}>
+                  <Grid container xs={2} sm={1} md={1}></Grid>
+                  <Grid xs={8} sm={6} md={5} key={card} sx={{ mt: 3 }}>
                     <SkeletonTamplateForCard cardIsInHome={true} />
                   </Grid>
                   <Grid container xs={2} sm={0} md={1}></Grid>
@@ -172,8 +171,15 @@ const HomePage = () => {
               allCards.length &&
               allCards.map((card) => (
                 <Fragment key={card._id}>
-                  <Grid container xs={2} sm={0} md={1}></Grid>
-                  <Grid xs={8} sm={6} md={4} sx={{ mt: 3 }}>
+                  <Grid container xs={2} sm={1} md={1}></Grid>
+                  <Grid
+                    xs={8}
+                    sm={5}
+                    md={4}
+                    sx={{
+                      mt: 3,
+                    }}
+                  >
                     <TemplateCardComponent
                       cardIsInHome={true}
                       card={card}
@@ -197,14 +203,14 @@ const HomePage = () => {
                   <Grid
                     container
                     xs={2}
-                    sm={0}
+                    sm={1}
                     md={1}
                     sx={{ height: "100%" }}
                   ></Grid>
-                  <Grid xs={8} sm={6} md={4} key={card} sx={{ mt: 3 }}>
+                  <Grid xs={8} sm={6} md={5} key={card} sx={{ mt: 3 }}>
                     <SkeletonTamplateForCard cardIsInHome={true} />
                   </Grid>
-                  <Grid container xs={2} sm={0} md={1}></Grid>
+                  <Grid container xs={2} sm={1} md={1}></Grid>
                 </Fragment>
               ))}
           </Grid>

@@ -59,7 +59,6 @@ const SandBoxPage = () => {
       .then(function (response) {
         SuccessMessage("delete complete");
         displayData.map((user, index) => {
-          console.log(user);
           if (user._id == idToDelete) {
             //update the cards to delete it
             const copied = [...displayData];
@@ -76,14 +75,15 @@ const SandBoxPage = () => {
     axios
       .get("/users")
       .then(function (response) {
-        setDataFromServer(response.data);
-        setInitialDataFromServer(response.data);
+        console.log(response);
+        setDataFromServer(response.data.users);
+        setInitialDataFromServer(response.data.users);
         setDone(true);
-        setnumPages(Math.ceil(response.data.length / TOTAL_PER_PAGE));
+        setnumPages(Math.ceil(response.data.users.length / TOTAL_PER_PAGE));
         // get all the user data and divide it to pages by calc how much pages
         //then set up the wanted data on eace page
         setDisplayData(
-          response.data.slice(
+          response.data.users.slice(
             (page - 1) * TOTAL_PER_PAGE,
             page * TOTAL_PER_PAGE
           )

@@ -15,9 +15,11 @@ import { useSelector } from "react-redux";
 import ROUTES from "../routes/ROUTES";
 import SuccessMessage from "../tostifyHandeker/SuccessMessage";
 import ErrorMessage from "../tostifyHandeker/ErrorMessage";
+import useAutoLogin from "../hooks/useAutoLogin";
 
 const ProfileEdit = () => {
   // const [userDate, setDataFromServer] = useState(null);
+  const login = useAutoLogin();
   const userinfo = useSelector((bigPie) => bigPie.authReducer.userInfo);
   const [userDate, setuserDate] = useState(userinfo);
   const [done, setDone] = useState(false);
@@ -64,6 +66,7 @@ const ProfileEdit = () => {
         })
         .catch((err) => {
           //catch an server error
+
           ErrorMessage(err.response.data);
         });
     } else {
@@ -84,7 +87,7 @@ const ProfileEdit = () => {
     setdisableEdit(false);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     //when he hit submit then send the udape and th non update to a normalize data strucutre
     //then send it to server and toast a message indicat if it succeed
@@ -93,6 +96,7 @@ const ProfileEdit = () => {
       .put(`/users/${userDate._id}`, request)
       .then(function (response) {
         SuccessMessage("edit succseed");
+        login();
         navigate(ROUTES.HOME);
       })
       .catch(function (error) {

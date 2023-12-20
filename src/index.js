@@ -13,11 +13,11 @@ import { Provider } from "react-redux";
 import store from "./REDUX/bigPie";
 import { getToken } from "./service/tokenservice";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-axios.defaults.baseURL = "https://monkfish-app-z9uza.ondigitalocean.app/bcard2";
+axios.defaults.baseURL = "http://localhost:8080";
 axios.interceptors.request.use((config) => {
   const tokenoOBj = getToken();
   if (tokenoOBj) {
-    config.headers["x-auth-token"] = tokenoOBj.token;
+    config.headers["Authorization"] = `Bearer ${tokenoOBj.token}`;
   }
   return config;
 });
@@ -28,7 +28,7 @@ root.render(
       <App />
     </BrowserRouter>
   </Provider>
-  /* </React.StrictMode> */
+  /* </React.StrictMode>  */
 );
 
 // If you want to start measuring performance in your app, pass a function

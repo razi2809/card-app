@@ -15,7 +15,7 @@ const authSlice = createSlice({
       //save the user token
       //save the user info
       state.loggedIn = true;
-      state.userData = action.payload.dataFromToken._id;
+      state.userData = action.payload.dataFromToken.userId;
       state.userInfo = action.payload.userInfo;
     },
     logout(state) {

@@ -51,7 +51,7 @@ const FavoriteCards = () => {
     axios
       .get("/cards")
       .then(function (response) {
-        const LikedCards = response.data.filter((card) =>
+        const LikedCards = response.data.cards.filter((card) =>
           card.likes.includes(userId)
         );
         SetCards(

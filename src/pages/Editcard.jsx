@@ -43,24 +43,24 @@ const Editcard = () => {
       .get(`/cards/${cardId}`)
       .then(function (response) {
         setInputsValue({
-          title: response.data.title,
-          subtitle: response.data.subtitle,
-          description: response.data.description,
-          phone: response.data.phone,
-          url: response.data.image.url,
-          country: response.data.address.country,
+          title: response.data.card.title,
+          subtitle: response.data.card.subtitle,
+          description: response.data.card.description,
+          phone: response.data.card.phone,
+          url: response.data.card.image.url,
+          country: response.data.card.address.country,
         });
         setOldValues({
-          email: response.data.email,
-          city: response.data.address.city,
-          street: response.data.address.street,
-          houseNumber: response.data.address.houseNumber,
+          email: response.data.card.email,
+          city: response.data.card.address.city,
+          street: response.data.card.address.street,
+          houseNumber: response.data.card.address.houseNumber,
         });
         // check if he is the crator or admin
         //if he one of them so a message then procced
         //if not show him the card but block the inputs and show him a message
         //that indicate that he isnt the cretor cause if he was admin he shoulnt see any warning at all
-        if (response.data.user_id == user_id || user_info.isAdmin) {
+        if (response.data.card.user_id == user_id || user_info.isAdmin) {
           setcanEdit(true);
           setdisableEdit(true);
           SuccessMessage(`you can now edit!`);

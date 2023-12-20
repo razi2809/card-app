@@ -55,11 +55,11 @@ export default function Cards() {
       .then(function (response) {
         // get all the card data and divide it to pages by calc how much pages
         //then set up the wanted data on eace page
-        setDataFromServer(response.data);
-        setnumPages(Math.ceil(response.data.length / TOTAL_PER_PAGE));
-        setInitialDataFromServer(response.data);
+        setDataFromServer(response.data.cards);
+        setnumPages(Math.ceil(response.data.cards.length / TOTAL_PER_PAGE));
+        setInitialDataFromServer(response.data.cards);
         setDisplayData(
-          response.data.slice(
+          response.data.cards.slice(
             (page - 1) * TOTAL_PER_PAGE,
             page * TOTAL_PER_PAGE
           )

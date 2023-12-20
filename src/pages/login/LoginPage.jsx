@@ -46,8 +46,7 @@ const LoginPage = () => {
         email: emailValue,
         password: passwordValue,
       });
-
-      storeToken(data, rememberMe);
+      storeToken(data.jwt, rememberMe);
       await login();
       SuccessMessage("log in successfully!");
       //check the inputs to make sore they are valid
