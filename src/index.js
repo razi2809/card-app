@@ -13,7 +13,7 @@ import { Provider } from "react-redux";
 import store from "./REDUX/bigPie";
 import { getToken } from "./service/tokenservice";
 const root = ReactDOM.createRoot(document.getElementById("root"));
-axios.defaults.baseURL = "https://server-side-card-app.onrender.com";
+axios.defaults.baseURL = "https://www.razicardapp.site";
 axios.interceptors.request.use((config) => {
   const tokenoOBj = getToken();
   if (tokenoOBj) {
