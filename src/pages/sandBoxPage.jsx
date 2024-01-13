@@ -75,7 +75,6 @@ const SandBoxPage = () => {
     axios
       .get("/users")
       .then(function (response) {
-        console.log(response);
         setDataFromServer(response.data.users);
         setInitialDataFromServer(response.data.users);
         setDone(true);
@@ -100,10 +99,10 @@ const SandBoxPage = () => {
     //if filter does contain something the fiter the cards
     if (!initialDataFromServer.length) return;
     const filter = search.filter ? search.filter : "";
-    const filteredCards = initialDataFromServer.filter((user) =>
+    const filteredUsers = initialDataFromServer.filter((user) =>
       user.name.first.startsWith(filter)
     );
-    if (filteredCards.length === 0) {
+    if (filteredUsers.length === 0) {
       // Handle empty response here
       if (layout === "grid") {
         WarningMessage("No users match the filter");
@@ -111,7 +110,7 @@ const SandBoxPage = () => {
     }
     if (filter) {
       //if he dose search something then show the result
-      setDisplayData(filteredCards);
+      setDisplayData(filteredUsers);
     } else {
       //if not or if he deleted the search slice the user depends on the page
       setDisplayData(
