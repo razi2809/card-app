@@ -20,8 +20,8 @@ i have written maintainable and clean code as far as i can do and make notes abo
 The project is built using cutting-edge technologies:
 
 - Front-end: React, Redux, Material UI
-- Back-end: hackr-u server
-- Database: provided by hacker-u at the moment
+- Back-end: myOwn created backEnd
+- Database: mongoDB
 
 ## Hosting and Infrastructure
 
