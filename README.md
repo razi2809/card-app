@@ -53,14 +53,17 @@ Upon login, users can:
 
 Git is used for version control, and the source code is hosted on GitHub for collaborative development.
 
-## Getting Started
+## Installation and Setup
 
-Provide instructions on how to set up and run the project locally. Include any dependencies and configuration steps.
+```bash
+# Clone the Repository
+git clone https://github.com/razi2809/card-app.git
+cd card-app
 
-## Contributing
+# Install Dependencies
+npm install
 
-Include guidelines for those who wish to contribute to the project. This may cover issues, pull requests, coding standards, etc.
 
-## Acknowledgments
-
-library that this project includes redux and framer-motiov, toast notifications, material-ui, etc.
+# Start the Application
+npm start
+```
