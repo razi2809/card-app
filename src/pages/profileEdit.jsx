@@ -51,23 +51,25 @@ const ProfileEdit = () => {
       axios
         .get(`/users/${userId}`)
         .then(function (response) {
-          setuserDate(response.data);
+          setuserDate(response.data.user);
           setInputsValue({
-            firstName: response.data.name.first,
-            lastName: response.data.name.last,
-            phone: response.data.phone,
-            url: response.data.image.url,
-            country: response.data.address.country,
-            city: response.data.address.city,
-            street: response.data.address.street,
+            firstName: response.data.user.name.first,
+            lastName: response.data.user.name.last,
+            phone: response.data.user.phone,
+            url: response.data.user.image.url,
+            country: response.data.user.address.country,
+            city: response.data.user.address.city,
+            street: response.data.user.address.street,
           });
-          SuccessMessage(`you can edit ${response.data.name.first}'s profile`);
+          SuccessMessage(
+            `you can edit ${response.data.user.name.first}'s profile`
+          );
           setDone(true);
         })
         .catch((err) => {
           //catch an server error
 
-          ErrorMessage(err.response.data);
+          ErrorMessage(err.response.data.message);
         });
     } else {
       setDone(true);
