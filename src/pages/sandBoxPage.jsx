@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import TamplateUserComponent from "../components/userCoponents/TamplateUserComponent";
 import { Box, Container, Grid, Pagination, Typography } from "@mui/material";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -13,7 +13,7 @@ import TableSkeleton from "../components/userCoponents/TableSkeleton";
 import SkeletonTamplateForUser from "../components/userCoponents/SkeletonTamplateForUser";
 const SandBoxPage = () => {
   const [dataFromServer, setDataFromServer] = useState([]);
-  const [initialDataFromServer, setInitialDataFromServer] = useState([]);
+  const [initialDataFromServer, setInitialDataFromServer] = useState(null);
   const search = useSearchquery();
   const [done, setDone] = useState(false);
   const navigate = useNavigate();
@@ -89,35 +89,44 @@ const SandBoxPage = () => {
         );
       })
       .catch((err) => {
-        ErrorMessage(err.response);
+        ErrorMessage(err.response.message);
         setDone(true);
       });
   }, []);
   useEffect(() => {
-    //check if initial data is populate if not return
-    //check the value of the hook in filter key if empty return
-    //if filter does contain something the fiter the cards
-    if (!initialDataFromServer.length) return;
-    const filter = search.filter ? search.filter : "";
-    const filteredUsers = initialDataFromServer.filter((user) =>
-      user.name.first.startsWith(filter)
-    );
-    if (filteredUsers.length === 0) {
-      // Handle empty response here
-      if (layout === "grid") {
-        WarningMessage("No users match the filter");
-      }
-    }
-    if (filter) {
-      //if he dose search something then show the result
-      setDisplayData(filteredUsers);
-    } else {
-      //if not or if he deleted the search slice the user depends on the page
-      setDisplayData(
-        dataFromServer.slice((page - 1) * TOTAL_PER_PAGE, page * TOTAL_PER_PAGE)
+    if (!initialDataFromServer) return;
+    try {
+      const filter = search.filter ?? "";
+      const filteredUsers = initialDataFromServer.filter((user) =>
+        user.name.first.startsWith(filter)
       );
+
+      if (filteredUsers.length === 0) {
+        if (layout === "grid") {
+          WarningMessage("No users match the filter");
+        }
+      }
+
+      if (filter) {
+        setDisplayData(filteredUsers);
+      } else {
+        setDisplayData(
+          dataFromServer.slice(
+            (page - 1) * TOTAL_PER_PAGE,
+            page * TOTAL_PER_PAGE
+          )
+        );
+      }
+    } catch (e) {
+      console.log(e);
     }
-  }, [search.filter, initialDataFromServer]);
+  }, [
+    search.filter,
+    initialDataFromServer,
+    dataFromServer,
+    page,
+    TOTAL_PER_PAGE,
+  ]);
 
   return (
     <Container>

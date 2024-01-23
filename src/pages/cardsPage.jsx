@@ -66,7 +66,7 @@ export default function Cards() {
         );
       })
       .catch(function (error) {
-        ErrorMessage(error.response.data);
+        ErrorMessage(error.response.data.message);
       });
   }, []);
   useEffect(() => {
