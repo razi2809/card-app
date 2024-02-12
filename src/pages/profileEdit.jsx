@@ -52,7 +52,6 @@ const ProfileEdit = () => {
         .get(`/users/${userId}`)
         .then(function (response) {
           setuserDate(response.data.user);
-          console.log(response.data);
 
           setInputsValue({
             firstName: response.data.user.name.first,
